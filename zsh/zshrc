@@ -29,7 +29,7 @@ autoload colors
 colors
 
 PS_COLOR='01;34m'
-PS1="%{$fg[blue]%}%n%{$reset_color%}@%{$fg[blue]%}%m%{$reset_color%}:%3d/ %T> "
+PS1="%{$fg[blue]%}%n%{$reset_color%}@%{$fg[blue]%}%m%{$reset_color%}:%3d/ %T%# "
 
 export SVN_EDITOR=vim
 
