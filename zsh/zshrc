@@ -1,0 +1,37 @@
+# The following lines were added by compinstall
+
+zstyle ':completion:*' completer _expand _complete _ignored
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*' menu select=1
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zstyle :compinstall filename '/Users/john/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+bindkey -e
+# End of lines configured by zsh-newuser-install
+
+# MacPorts Installer addition on 2011-09-03_at_17:19:17: adding an appropriate PATH variable for use with MacPorts.
+PATH=/opt/local/libexec/gnubin/:$PATH
+PATH=/opt/local/bin:/opt/local/sbin:$PATH
+PATH=/opt/local/lib/postgresql90/bin/:$PATH
+export PATH
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+alias ls='ls --color'
+autoload colors
+colors
+
+PS_COLOR='01;34m'
+PS1="%{$fg[blue]%}%n%{$reset_color%}@%{$fg[blue]%}%m%{$reset_color%}:%3d/ %T> "
+
+export SVN_EDITOR=vim
+
+export PS1
+
