@@ -25,6 +25,10 @@ export PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
 alias ls='ls --color'
+alias l='ls -l'
+alias lA='ls -lA'
+alias lS='ls -lS'
+alias lt='ls -lt'
 autoload colors
 colors
 
