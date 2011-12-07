@@ -21,6 +21,7 @@ bindkey -e
 PATH=/opt/local/libexec/gnubin/:$PATH
 PATH=/opt/local/bin:/opt/local/sbin:$PATH
 PATH=/opt/local/lib/postgresql90/bin/:$PATH
+PATH=$HOME/bin:$PATH
 export PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
