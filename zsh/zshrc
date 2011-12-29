@@ -30,6 +30,9 @@ alias l='ls -l'
 alias lA='ls -lA'
 alias lS='ls -lS'
 alias lt='ls -lt'
+alias zssh='ssh -i ~/.ssh/zkeys/id_rsa'
+alias zscp='scp -i ~/.ssh/zkeys/id_rsa'
+alias python='python2.7'
 autoload colors
 colors
 
