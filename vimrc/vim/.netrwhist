@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/media/4922-AB14/syslinux'
+let g:netrw_dirhist_2='/home/john/Desktop/Projetos/workspace/py-kb/src/main/kb/job'
+let g:netrw_dirhist_3='/home/john/Desktop/Projetos/workspace/py-kb/src/main/kb'
+let g:netrw_dirhist_4='/Users/john/Desktop/zalando/workspace/reboot/trunk/zalando-bm/.svn'
+let g:netrw_dirhist_5='/Users/john/Desktop/projects/workspace/project_walker/project-walker-core/src/python'
