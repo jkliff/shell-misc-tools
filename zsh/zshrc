@@ -34,6 +34,8 @@ alias lt='ls -lt'
 alias xargs='gxargs'
 alias find='gfind'
 
+alias mvim='/Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim'
+
 alias zssh='ssh -i ~/.ssh/zkeys/id_rsa'
 alias zscp='scp -i ~/.ssh/zkeys/id_rsa'
 alias python='python2.7'
