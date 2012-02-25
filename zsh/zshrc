@@ -1,5 +1,5 @@
 # some variables for later use
-system=$(uname -s)
+local system=$(uname -s)
 
 # The following lines were added by compinstall
 
@@ -34,6 +34,8 @@ alias lA='ls -lA'
 alias lS='ls -lS'
 alias lt='ls -lt'
 
+alias diff='colordiff'
+
 if [[ $system = 'Darwin' ]] ; then 
     alias xargs='gxargs'
     alias find='gfind'
@@ -52,7 +54,7 @@ fi
 autoload colors
 colors
 
-case $host in 
+case $HOST in 
     hesse)
         hostcolor=blue
         ;;
