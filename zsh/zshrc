@@ -1,3 +1,6 @@
+# some variables for later use
+system=$(uname -s)
+
 # The following lines were added by compinstall
 
 zstyle ':completion:*' completer _expand _complete _ignored
@@ -31,22 +34,49 @@ alias lA='ls -lA'
 alias lS='ls -lS'
 alias lt='ls -lt'
 
-alias xargs='gxargs'
-alias find='gfind'
+if [[ $system = 'Darwin' ]] ; then 
+    alias xargs='gxargs'
+    alias find='gfind'
 
-alias mvim='/Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim'
+    if [[ $host = 'hesse' ]] ; then
+        alias mvim='/Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim'
+    fi
+fi
 
-alias zssh='ssh -i ~/.ssh/zkeys/id_rsa'
-alias zscp='scp -i ~/.ssh/zkeys/id_rsa'
-alias python='python2.7'
+if [[ $host = 'hesse' ]] ; then
+    alias zssh='ssh -i ~/.ssh/zkeys/id_rsa'
+    alias zscp='scp -i ~/.ssh/zkeys/id_rsa'
+    alias python='python2.7'
+fi
+
 autoload colors
 colors
 
-PS_COLOR='01;34m'
-PS1="%{$fg[blue]%}%n%{$reset_color%}@%{$fg[blue]%}%m%{$reset_color%}:%3d/ %T%# "
+case $host in 
+    hesse)
+        hostcolor=blue
+        ;;
+    dresden)
+        hostcolor=red
+        ;;
+    bataille)
+        hostcolor=yellow
+        ;;
+    morgenthau)
+        hostcolor=green
+        ;;
+    zlws-jj)
+        hostcolor=orange
+        ;;
+    *)
+        hostcolor=gray
+        ;;
+
+esac
+
+PS1="%{$fg[$hostcolor]%}%n%{$reset_color%}@%{$fg[$hostcolor]%}%m%{$reset_color%}:%3d/ %T%# "
 
 export SVN_EDITOR=vim
-
 export PS1
 
 cl () { cd $1; ls }
