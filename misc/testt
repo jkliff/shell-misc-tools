@@ -1,7 +1,5 @@
 #!/bin/bash
-# usefull. thanks to http://www.commandlinefu.com/commands/view/10280/view-all-file-operator-expressions-for-any-file-test-stat#comment
-
-
+# useful. thanks to http://www.commandlinefu.com/commands/view/10280/view-all-file-operator-expressions-for-any-file-test-stat#comment
 
 o=abcdefghLkprsStuwxOGN;
 echo $@;
