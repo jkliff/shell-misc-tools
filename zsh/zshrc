@@ -45,7 +45,7 @@ if [[ $system = 'Darwin' ]] ; then
     fi
 fi
 
-if [[ $host = 'hesse' ]] ; then
+if [[ $HOST = 'hesse' ]] ; then
     alias zssh='ssh -i ~/.ssh/zkeys/id_rsa'
     alias zscp='scp -i ~/.ssh/zkeys/id_rsa'
     alias python='python2.7'
