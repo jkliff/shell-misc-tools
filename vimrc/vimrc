@@ -27,3 +27,5 @@ set nocompatible
 set backspace=indent,eol,start
 
 autocmd FileType make set noexpandtab
+
+map <Leader>b :MiniBufExplorer<cr>
