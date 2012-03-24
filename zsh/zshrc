@@ -35,6 +35,8 @@ alias lS='ls -lS'
 alias lt='ls -lt'
 
 alias diff='colordiff'
+# support colored less
+alias less='less -R'
 
 if [[ $system = 'Darwin' ]] ; then 
     alias xargs='gxargs'
