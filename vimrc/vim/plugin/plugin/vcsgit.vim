@@ -48,7 +48,9 @@ if v:version < 700
 	finish
 endif
 
-runtime plugin/vcscommand.vim
+if !exists('g:loaded_VCSCommand')
+	runtime plugin/vcscommand.vim
+endif
 
 if !executable(VCSCommandGetOption('VCSCommandGitExec', 'git'))
 	" git is not installed
@@ -68,7 +70,7 @@ let s:gitFunctions = {}
 " Returns the executable used to invoke git suitable for use in a shell
 " command.
 function! s:Executable()
-	return shellescape(VCSCommandGetOption('VCSCommandGitExec', 'git'))
+	return VCSCommandGetOption('VCSCommandGitExec', 'git')
 endfunction
 
 " Function: s:DoCommand(cmd, cmdName, statusText, options) {{{2
