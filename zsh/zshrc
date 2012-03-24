@@ -78,7 +78,9 @@ case $HOST in
 
 esac
 
-PS1="%{$fg[$hostcolor]%}%n%{$reset_color%}@%{$fg[$hostcolor]%}%m%{$reset_color%}:%3d/ %T%# "
+usercolor=$hostcolor
+
+PS1="%{$fg[$usercolor]%}%n%{$reset_color%}@%{$fg[$hostcolor]%}%m%{$reset_color%}:%j:%3d/ %T%# "
 
 export SVN_EDITOR=vim
 export PS1
