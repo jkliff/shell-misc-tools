@@ -10,14 +10,17 @@ set cursorline
 syntax enable
 
 if has ('gui_running')
-    colorscheme mustang
     set guioptions-=r  " no scrollbar on the right
     set guioptions-=l  " no scrollbar on the left
     set guioptions-=m  " no menu
     set guioptions-=T  " no toolbar
-else
-    colorscheme evening
 endif
+
+if $COLORTERM == 'gnome-terminal' || $COLORTERM == 'xterm' || $COLORTERM == 'Terminal'
+    set t_Co=256
+endif
+colorscheme mustang
+" colorscheme evening
 
 source ~/.vim/plugin/imaps.vim
 
