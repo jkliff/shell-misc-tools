@@ -11,18 +11,18 @@ endif
 
 source ~/.vim/plugin/imaps.vim
 
-#call IMAP ('(', '(<++>)', '')
-#call IMAP ('[', '[<++>]', '')
-#call IMAP ('<', '<<++>>', '')
-#call IMAP ('{', '{<++>}', '')
-#call IMAP ("\'", "\'<++>\'", '')
-#call IMAP ("\"", "\"<++>\"", '')
+"call IMAP ('(', '(<++>)', '')
+"call IMAP ('[', '[<++>]', '')
+"call IMAP ('<', '<<++>>', '')
+"call IMAP ('{', '{<++>}', '')
+"call IMAP ("\'", "\'<++>\'", '')
+"call IMAP ("\"", "\"<++>\"", '')
 
 map <F2> :NERDTreeToggle<CR>
 
 set list listchars=tab:→\ ,trail:·
 
-# trying to make vim work properly in macos
+" trying to make vim work properly in macos
 set nocompatible
 set backspace=indent,eol,start
 
