@@ -1,3 +1,6 @@
+scriptencoding utf-8
+"set encoding=utf-8
+
 set number
 set tabstop=4 shiftwidth=4 expandtab
 set guifont=Bitstream\ Vera\ Sans\ Mono\ 8
@@ -20,7 +23,7 @@ source ~/.vim/plugin/imaps.vim
 
 map <F2> :NERDTreeToggle<CR>
 
-set list listchars=tab:→\ ,trail:·
+set list listchars=trail:·,precedes:«,extends:»,tab:▸\  
 
 " trying to make vim work properly in macos
 set nocompatible
