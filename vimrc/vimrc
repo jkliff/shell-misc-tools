@@ -8,7 +8,16 @@ set guifont=Bitstream\ Vera\ Sans\ Mono\ 8
 set cursorline
 
 syntax enable
-colorscheme mustang
+
+if has ('gui_running')
+    colorscheme mustang
+    set guioptions-=r  " no scrollbar on the right
+    set guioptions-=l  " no scrollbar on the left
+    set guioptions-=m  " no menu
+    set guioptions-=T  " no toolbar
+else
+    colorscheme evening
+endif
 
 source ~/.vim/plugin/imaps.vim
 
