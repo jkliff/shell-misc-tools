@@ -8,9 +8,7 @@ set guifont=Bitstream\ Vera\ Sans\ Mono\ 8
 set cursorline
 
 syntax enable
-if has('gui_running')
-    colorscheme evening
-endif
+colorscheme mustang
 
 source ~/.vim/plugin/imaps.vim
 
