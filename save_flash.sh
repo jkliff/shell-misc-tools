@@ -22,6 +22,7 @@ if [[ ! -d $DEST ]] ; then
     exit -2
 fi
 
+# TODO: find this dinamically
 TMP_PATH=/private/var/folders/cv/r8x66fwd5058d396fbglslyr0000gn/T/
 
 pushd $TMP_PATH
