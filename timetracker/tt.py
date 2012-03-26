@@ -5,8 +5,8 @@ Sample usage:
 
 tt curr
 
-tt rec "reboot-1234"
-tt rec "reboot-666"
+tt rec "foo-1234"
+tt rec "bar-666"
 
 tt stop
 
