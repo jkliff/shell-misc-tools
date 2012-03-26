@@ -1,3 +1,6 @@
+scriptencoding utf-8
+set encoding=utf-8
+
 set number
 set tabstop=4 shiftwidth=4 expandtab
 set guifont=Bitstream\ Vera\ Sans\ Mono\ 8
@@ -5,24 +8,34 @@ set guifont=Bitstream\ Vera\ Sans\ Mono\ 8
 set cursorline
 
 syntax enable
-if has('gui_running')
-    colorscheme evening
+
+if has ('gui_running')
+    set guioptions-=r  " no scrollbar on the right
+    set guioptions-=l  " no scrollbar on the left
+    set guioptions-=m  " no menu
+    set guioptions-=T  " no toolbar
 endif
+
+if $COLORTERM == 'gnome-terminal' || $COLORTERM == 'xterm' || $COLORTERM == 'Terminal'
+    set t_Co=256
+endif
+colorscheme mustang
+" colorscheme evening
 
 source ~/.vim/plugin/imaps.vim
 
-#call IMAP ('(', '(<++>)', '')
-#call IMAP ('[', '[<++>]', '')
-#call IMAP ('<', '<<++>>', '')
-#call IMAP ('{', '{<++>}', '')
-#call IMAP ("\'", "\'<++>\'", '')
-#call IMAP ("\"", "\"<++>\"", '')
+"call IMAP ('(', '(<++>)', '')
+"call IMAP ('[', '[<++>]', '')
+"call IMAP ('<', '<<++>>', '')
+"call IMAP ('{', '{<++>}', '')
+"call IMAP ("\'", "\'<++>\'", '')
+"call IMAP ("\"", "\"<++>\"", '')
 
 map <F2> :NERDTreeToggle<CR>
 
-set list listchars=tab:→\ ,trail:·
+set list listchars=trail:·,precedes:«,extends:»,tab:▸\  
 
-# trying to make vim work properly in macos
+" trying to make vim work properly in macos
 set nocompatible
 set backspace=indent,eol,start
 
