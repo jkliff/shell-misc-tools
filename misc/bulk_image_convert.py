@@ -2,7 +2,10 @@
 
 """simple bulk image resizer (I use this a lot when trying to send someone pictures that are in too high resolution).
 
-TODO: prompt user to select which images to convert."""
+TODO: prompt user to select which images to convert.
+TODO: zip converted images
+TODO: send per email the zip
+"""
 
 from argparse import ArgumentParser
 import os
