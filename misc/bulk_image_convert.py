@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+"""simple bulk image resizer (I use this a lot when trying to send someone pictures that are in too high resolution).
+
+TODO: prompt user to select which images to convert."""
+
 from argparse import ArgumentParser
 import os
 import os.path
@@ -19,6 +24,7 @@ def parse_options():
     return parser.parse_args ()
 
 def prompt_user_for_imgs (path):
+    """TODO: really prompt the user"""
     print 'Selecting images from %s' % path
     return [os.path.join (path, f) for f in os.listdir (path)]
 
