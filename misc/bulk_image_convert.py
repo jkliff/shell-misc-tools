@@ -6,6 +6,9 @@ import urwid
 import re
 import sys
 
+# it is as pain in the ass to install this.
+#import PythonMagick
+
 def _w (t):
     sys.stdout.write ("\r%s" % t)
     sys.stdout.flush ()
@@ -17,7 +20,7 @@ def parse_options():
 
 def prompt_user_for_imgs (path):
     print 'Selecting images from %s' % path
-    return os.listdir (path)
+    return [os.path.join (path, f) for f in os.listdir (path)]
 
 def convert_images (l):
     c = 0
@@ -28,9 +31,10 @@ def convert_images (l):
 
 def convert (img):
     new_name = re.sub (r'(.*)\.([a-zA-Z]+)', r'\1-reduced.\2', img)
-    cmd = 'convert -scale 1024x768 %s %s' % (img, new_name)
+    # be decent and use python magick api. if only PythonMagick's folks had decent docs and packaging...
+    cmd = 'convert -scale 1024x768 "%s" "%s"' % (img, new_name)
     #print 'will execute: %s' % cmd
-    system (cmd)
+    os.system (cmd)
 
 def main ():
     args = parse_options ()
