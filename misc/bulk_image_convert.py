@@ -24,7 +24,7 @@ def _w (t):
 
 def parse_options():
     parser = ArgumentParser (description = 'bulk image size converter')
-    parser.add_argument ('--path', default = '.', help = 'path to where the images are located')
+    parser.add_argument ('path', default = '.', help = 'path to where the images are located')
     parser.add_argument ('--zip', required = False, default = None, help = 'if present, specifies the name of zip file with all the converted images. If present, converted images are deleted afterwards.')
     return parser.parse_args ()
 
@@ -43,7 +43,7 @@ def convert_images (l):
         new_files.append (f)
 
     sys.stdout.write ("\n")
-    print 'Done.'
+    print 'Done converting.'
 
     return new_files
 
@@ -59,11 +59,16 @@ def package_images (target_file, files, delete_afterwards = True):
     if not target_file.endswith ('.zip'):
         target_file += '.zip'
 
+    print 'Packaging to %s...' % target_file
+
     z = zipfile.ZipFile (target_file, 'w')
     for i in files:
         z.write (i)
         if delete_afterwards:
             os.remove(i)
+
+    z.close ()
+    print 'Done packaging'
 
 def main ():
     args = parse_options ()
@@ -85,7 +90,6 @@ def main ():
     generated_files = convert_images (imgs_to_convert)
 
     if args.zip is not None:
-        print 'Packaging...'
         package_images (args.zip, generated_files)
 
 if __name__ == '__main__': 
