@@ -27,15 +27,15 @@ while 1:
     line = p.readline()
     if not line:
         break
-    else:
-        if re.match ('^\[.+\] Destination: .+$', line):
-            r = re.search ('^\[(.+)\] Destination: (.+)$', line)
-            action = r.group (1)
-            file_name = r.group (2)
-            if action == 'download':
-                download_file = file_name
-            elif action == 'ffmpeg':
-                audio_file = file_name
+
+    if re.match ('^\[.+\] Destination: .+$', line):
+        r = re.search ('^\[(.+)\] Destination: (.+)$', line)
+        action = r.group (1)
+        file_name = r.group (2)
+        if action == 'download':
+            download_file = file_name
+        elif action == 'ffmpeg':
+            audio_file = file_name
     print line,
 
 cmd = """scp %s:~/%s .""" % (ssh_cred, audio_file)
