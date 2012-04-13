@@ -70,7 +70,7 @@ case $HOST in
         hostcolor=green
         ;;
     zlws-jj)
-        hostcolor=orange
+        hostcolor=magenta
         ;;
     *)
         hostcolor=gray
