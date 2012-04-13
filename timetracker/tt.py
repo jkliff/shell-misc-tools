@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 CLI timetracker
 
@@ -32,7 +34,12 @@ def _gen_record (t):
     return (d.strftime (DATE_FORMAT), t)
 
 def _f ():
-    return os.path.join (DATA_DIR, 'log')
+    return touch (os.path.join (DATA_DIR, 'log'))
+
+def touch (d):
+    if not os.path.exists (d):
+        open (d, 'w').close()
+    return d
 
 def _w (r):
     with (open (_f(), 'a')) as f:
@@ -42,7 +49,12 @@ def _w (r):
 def current (p):
     r = None
     with (open (_f(), 'r')) as f:
-        r = list (f)[-1]
+        l = list (f)
+        if len (l) == 0:
+            print 'No records.'
+            return
+
+        r = l [-1]
 
     x = r.strip().split (',')
     t = x [0]
