@@ -21,6 +21,7 @@ from datetime import datetime
 import tempfile
 import json
 
+# TODO: improve this to resolve the editor dinamically ($EDITOR, or what is configured)
 EDITOR = 'vim'
 
 COMMENT_CHAR = '#'
