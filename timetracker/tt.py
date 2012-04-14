@@ -72,7 +72,7 @@ CMDS = {
 
 def parse_args ():
     parser = ArgumentParser (description = 'Timetracker')
-    parser.add_argument ('command', type=str, nargs=1, help='Action to be executed', default='list')
+    parser.add_argument ('command', type=str, nargs=1, help='Action to be executed: %s' % ', '.join (sorted(CMDS.keys())), default='list')
     parser.add_argument ('param', type=str, nargs='?', help='parameters')
     a = parser.parse_args ()
 
