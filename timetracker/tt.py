@@ -21,16 +21,24 @@ from datetime import datetime
 import tempfile
 import json
 
+import termcolor
+c=termcolor.colored
+
 # TODO: improve this to resolve the editor dinamically ($EDITOR, or what is configured)
 EDITOR = 'vim'
 
 COMMENT_CHAR = '#'
-
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
-DATA_DIR = os.path.expanduser ('~/.timetracker/')
 
 TEMPLATE = {'new_record': """%s Enter event description below. Lines starting with %s are ignored.
 """ % (COMMENT_CHAR, COMMENT_CHAR)}
+
+DATA_DIR = os.path.expanduser ('~/.timetracker/')
+def __check_datadir (d=DATA_DIR):
+    if not os.path.exists (d):
+        print 'Creating datadir %s' % c(d, 'red', attrs=['bold'])
+        os.mkdir (d)
+        open(_f(), 'w').close()
 
 class Record:
     time = None
@@ -43,10 +51,6 @@ class Record:
     def toJson (self):
         return json.dumps (self.__dict__)
 
-if not os.path.exists (DATA_DIR):
-    print 'Creating datadir', DATA_DIR
-    os.mkdir (DATA_DIR)
-
 def _gen_record (t):
     d = datetime.now ()
 
@@ -56,16 +60,25 @@ def _gen_record (t):
 
     return r
 
-def comment_lines (t):
-    s = ''
-    if type (list) != type (t):
-        s = '%s %s' % (COMMENT_CHAR, t)
-    else :
-        s = "\n".join (['%s %s' % (COMMENT_CHAR, i) for i in t])
-    return s
+def _last_record ():
+    r = None
+    with (open (_f(), 'r')) as f:
+        l = list (f)
+        if len (l) > 0:
+            r = l[-1]
+    return Record (r)
 
-def _i (s, tmpl):
+def __prompt_user_input (s, tmpl):
     """Prompt for user input writing on a temp file, calling an editor on it, and then reading its contents and then returning them. The temp file is deleted afterwards"""
+
+    def comment_lines (t):
+        s = ''
+        if type (list) != type (t):
+            s = '%s %s' % (COMMENT_CHAR, t)
+        else :
+            s = "\n".join (['%s %s' % (COMMENT_CHAR, i) for i in t])
+        return s
+
     t = tempfile.mktemp ()
     with (open (t, 'w')) as f:
         f.write (tmpl)
@@ -80,21 +93,21 @@ def _i (s, tmpl):
 
     return msg
 
-def _f ():
+def __gen_ful_log_filename (d=DATA_DIR):
     """Gets the full path to the datastore"""
-    return os.path.join (DATA_DIR, 'log')
+    return os.path.join (d, 'log')
 
-def _w (r):
+def __write_datastore (r):
     """Updates the datastore"""
+    print 'Updating store...',
     with (open (_f(), 'a')) as f:
         f.write (r.toJson ())
         f.write ("\n")
+    print 'done.'
 
-def _last_record ():
-    r = None
-    with (open (_f(), 'r')) as f:
-        r = list (f)[-1]
-    return Record (r)
+_w = __write_datastore
+_i = __prompt_user_input
+_f = __gen_ful_log_filename
 
 def current (p):
     x =_last_record ()
@@ -104,7 +117,7 @@ def current (p):
 
     t = x.time
     d = datetime.now() - datetime.strptime (t, DATE_FORMAT)
-    print "Since %s (%s):\n%s" % (x.time, d, x.desc)
+    print "Current activity:\n%s\nStarted at %s (%s)" % (x.desc, d, x.time, d)
 
 def new_record (p):
     if not p:
@@ -113,6 +126,7 @@ def new_record (p):
     if _last_record ().desc == p:
         return
     r = _gen_record (p)
+    print 'Including record at %s' % c(r.time, 'green')
     _w (r)
 
 def stop (p, stop_delimiter=COMMENT_CHAR):
@@ -154,6 +168,9 @@ def parse_args ():
     return (cmd, p)
 
 def main ():
+
+    __check_datadir ()
+
     cmd, params = parse_args ()
     CMDS [cmd] (params)
 
