@@ -86,9 +86,11 @@ def _f ():
 
 def _w (r):
     """Updates the datastore"""
+    print 'Updating store...',
     with (open (_f(), 'a')) as f:
         f.write (r.toJson ())
         f.write ("\n")
+    print 'done.'
 
 def _last_record ():
     r = None
@@ -113,6 +115,7 @@ def new_record (p):
     if _last_record ().desc == p:
         return
     r = _gen_record (p)
+    print 'Including record at %s' % r.time
     _w (r)
 
 def stop (p, stop_delimiter=COMMENT_CHAR):
