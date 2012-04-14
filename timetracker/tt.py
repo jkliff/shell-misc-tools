@@ -121,7 +121,13 @@ def stop (p, stop_delimiter=COMMENT_CHAR):
         _w (_gen_record (stop_delimiter))
 
 def list_period (p):
-    print p
+
+    with (open (_f())) as f:
+        d = list (f)
+        if p:
+            d = d [-int(p):]
+
+    print "\n".join (["%s\n%s%s" % (r.time, 20*' ', r.desc) for r in map (lambda x: Record (x), d)])
 
 def summarize_period (p):
     print p
