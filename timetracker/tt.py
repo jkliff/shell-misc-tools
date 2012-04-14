@@ -14,6 +14,19 @@ tt list TODAY
 tt list 20120215
 tt sum 2012
 tt sum 201201
+
+Dependencies:
+easy_install termcolor
+
+Bugs: 
+- handle unicode properly:
+$ python timetracker/tt.py rec "lavando louça"
+timetracker/tt.py:135: UnicodeWarning: Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal
+  if _last_record ().desc == p:
+Including record at 2012-04-14 20:39:48
+Updating store... done.
+
+
 """
 import os.path
 from argparse import ArgumentParser
