@@ -65,14 +65,12 @@ def convert (img, dest_dir):
     os.system (cmd)
     return new_name
 
-def package_images (target_file, files, delete_afterwards = True):
+def package_images (target_file, files):
     print 'Packaging to %s...' % target_file
 
     z = zipfile.ZipFile (target_file, 'w')
     for i in files:
-        z.write (i)
-        if delete_afterwards:
-            os.remove(i)
+        z.write (i, os.path.split (i)[1])
 
     z.close ()
     print 'Done packaging'
