@@ -5,6 +5,7 @@
 TODO: prompt user to select which images to convert.
 TODO: allow not to delete all images after convertion in case of --zip
 TODO: send per email the zip
+TODO: allow definition of max size of zip to break up in little ones automatically
 """
 
 from argparse import ArgumentParser
