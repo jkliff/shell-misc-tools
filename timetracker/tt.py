@@ -106,7 +106,7 @@ def __prompt_user_input (s, tmpl):
 
     return msg
 
-def __gen_ful_log_filename (d=DATA_DIR):
+def __gen_full_log_filename (d=DATA_DIR):
     """Gets the full path to the datastore"""
     return os.path.join (d, 'log')
 
@@ -129,7 +129,7 @@ _td = lambda b, e: __time_delta (b, e)
 _ctd = lambda b: (lambda e: _td(b, e))(datetime.now())
 _w = __write_datastore
 _i = __prompt_user_input
-_f = __gen_ful_log_filename
+_f = __gen_full_log_filename
 
 # commands 
 
