@@ -1,0 +1,3 @@
+Wrapper script to call MacVim from the command line and have the expected behaviours.
+cp misc/mvim-cli ~/bin/vim
+chmod +x ~/bin/vim

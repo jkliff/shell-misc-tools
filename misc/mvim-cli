@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/Applications/MacPorts/MacVim.app/Contents/MacOS/Vim $@
