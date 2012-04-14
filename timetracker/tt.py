@@ -105,9 +105,20 @@ def __write_datastore (r):
         f.write ("\n")
     print 'done.'
 
+def __time_delta (b, e):
+    if type (datetime.now()) != type (e):
+        e = datetime.strptime (e, DATE_FORMAT)
+
+    return e - datetime.strptime (b, DATE_FORMAT)
+
+# convenience shortcuts
+_td = lambda b, e: __time_delta (b, e)
+_ctd = lambda b: (lambda e: _td(b, e))(datetime.now())
 _w = __write_datastore
 _i = __prompt_user_input
 _f = __gen_ful_log_filename
+
+# commands 
 
 def current (p):
     x =_last_record ()
@@ -115,9 +126,7 @@ def current (p):
         print 'No current activity'
         return
 
-    t = x.time
-    d = datetime.now() - datetime.strptime (t, DATE_FORMAT)
-    print "Current activity:\n%s\nStarted at %s (%s)" % (x.desc, d, x.time, d)
+    print "Current activity:\n%s\nStarted at %s (%s)" % (x.desc, x.time, _ctd (x.time))
 
 def new_record (p):
     if not p:
@@ -141,7 +150,14 @@ def list_period (p):
         if p:
             d = d [-int(p):]
 
-    print "\n".join (["%s\n%s%s" % (r.time, 20*' ', r.desc) for r in map (lambda x: Record (x), d)])
+    l = map (lambda x: Record (x), d)
+    for i in range (len (l)):
+        r = l[i]
+        n_time = datetime.now()
+        if i+1 < len (l):
+            n_time = l[i+1].time
+
+        print "%s (%s)\n%s%s" % (c(r.time, 'white', attrs=['underline']), _td (r.time, n_time), 20*' ', r.desc)
 
 def summarize_period (p):
     print p
