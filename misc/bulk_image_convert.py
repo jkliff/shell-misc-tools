@@ -98,7 +98,6 @@ def main ():
     dest_dir = args.target
     if args.zip:
         dest_dir = tempfile.mkdtemp ()
-
     else:
         os.mkdir (dest_dir)
 
