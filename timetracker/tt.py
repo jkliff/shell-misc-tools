@@ -115,10 +115,10 @@ def new_record (p):
     r = _gen_record (p)
     _w (r)
 
-def stop (p):
+def stop (p, stop_delimiter=COMMENT_CHAR):
     # if last entry is already a STOP we don't have to do anything.
-    if _last_record ().desc != COMMENT_CHAR:
-        _w (_gen_record (COMMENT_CHAR))
+    if _last_record ().desc != stop_delimiter:
+        _w (_gen_record (stop_delimiter))
 
 def list_period (p):
     print p
