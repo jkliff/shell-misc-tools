@@ -57,21 +57,15 @@ class Record:
     time = None
     desc = None
 
-    def __init__ (self, d = None):
-        if d:
-            self.__dict__ = json.loads (d)
+    def __init__ (self, serial = None, desc = None):
+        if serial:
+            self.__dict__ = json.loads (serial)
+        else:
+            self.time = datetime.now().strftime (DATE_FORMAT)
+            self.desc = desc
 
     def toJson (self):
         return json.dumps (self.__dict__)
-
-def _gen_record (t):
-    d = datetime.now ()
-
-    r = Record()
-    r.time = d.strftime (DATE_FORMAT)
-    r.desc = t
-
-    return r
 
 def _last_record ():
     r = None
@@ -79,7 +73,7 @@ def _last_record ():
         l = list (f)
         if len (l) > 0:
             r = l[-1]
-    return Record (r)
+    return Record (serial = r)
 
 def __prompt_user_input (s, tmpl):
     """Prompt for user input writing on a temp file, calling an editor on it, and then reading its contents and then returning them. The temp file is deleted afterwards"""
@@ -139,7 +133,8 @@ def current (p):
         print 'No current activity'
         return
 
-    print "Current activity:\n%s\nStarted at %s (%s)" % (x.desc, x.time, _ctd (x.time))
+    print c('Current activity:', attrs=['underline'])
+    print "%s\nStarted at %s (%s)" % (x.desc, c(x.time, 'green'), _ctd (x.time))
 
 def new_record (p):
     if not p:
@@ -147,28 +142,23 @@ def new_record (p):
     # if last record is exaclty the same as the new, there's not really the need to create a new one.
     if _last_record ().desc == p:
         return
-    r = _gen_record (p)
+    r = Record (desc = p)
     print 'Including record at %s' % c(r.time, 'green')
     _w (r)
 
 def stop (p, stop_delimiter=COMMENT_CHAR):
     # if last entry is already a STOP we don't have to do anything.
     if _last_record ().desc != stop_delimiter:
-        _w (_gen_record (stop_delimiter))
+        _w (Record (desc = stop_delimiter))
 
 def list_period (p):
 
     with (open (_f())) as f:
-        d = list (f)
-        if p:
-            d = d [-int(p):]
+        l = map (lambda x: Record (serial = x), list(f)[-int((0,p)[p is not None]):])
 
-    l = map (lambda x: Record (x), d)
-    for i in range (len (l)):
+    for i in range (len (l or [])):
         r = l[i]
-        n_time = datetime.now()
-        if i+1 < len (l):
-            n_time = l[i+1].time
+        n_time = (lambda x, b: (datetime.now(), x[min (len(x)-1, i+1)].time)[b])(l, (i+1) < len (l))
 
         print "%s (%s)\n%s%s" % (c(r.time, 'white', attrs=['underline']), _td (r.time, n_time), 20*' ', r.desc)
 
