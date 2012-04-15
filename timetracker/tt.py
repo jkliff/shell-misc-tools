@@ -14,7 +14,7 @@ tt stop
 tt list TODAY
 tt list 20120215
 tt sum 2012
-tt sum 201201github jkliff
+tt sum 201201
 
 Dependencies:
 easy_install termcolor
