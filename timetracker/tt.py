@@ -123,7 +123,6 @@ def current (p):
     print c('Current activity:', attrs=['underline'])
     print "%s\nStarted at %s (%s)" % (x.desc, c(x.time, 'green'), _ctd (x.time))
 
-
 def new_record (p):
     if not p:
         p = _i ('New record data:', TEMPLATE ['new_record'])
@@ -142,16 +141,11 @@ def stop (p, stop_delimiter=COMMENT_CHAR):
 def list_period (p):
 
     with (open (_f())) as f:
-        d = list (f)
-        if p:
-            d = d [-int(p):]
+        l = map (lambda x: Record (serial = x), list(f)[-int((0,p)[p is not None]):])
 
-    l = map (lambda x: Record (serial = x), d)
-    for i in range (len (l)):
+    for i in range (len (l or [])):
         r = l[i]
-        n_time = datetime.now()
-        if i+1 < len (l):
-            n_time = l[i+1].time
+        n_time = (lambda x, b: (datetime.now(), x[min (len(x)-1, i+1)].time)[b])(l, (i+1) < len (l))
 
         print "%s (%s)\n%s%s" % (c(r.time, 'white', attrs=['underline']), _td (r.time, n_time), 20*' ', r.desc)
 
