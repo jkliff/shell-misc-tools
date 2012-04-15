@@ -19,14 +19,6 @@ tt sum 201201github jkliff
 Dependencies:
 easy_install termcolor
 
-Bugs: 
-- handle unicode properly:
-$ python timetracker/tt.py rec "lavando louça"
-timetracker/tt.py:135: UnicodeWarning: Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal
-  if _last_record ().desc == p:
-Including record at 2012-04-14 20:39:48
-Updating store... done.
-
 
 """
 import os.path
@@ -141,7 +133,13 @@ def new_record (p):
         p = _i ('New record data:', TEMPLATE ['new_record'])
     # if last record is exaclty the same as the new, there's not really the need to create a new one.
     if _last_record ().desc == unicode (p, 'utf-8'):
+        print c('Rejected:', 'red'), 'Same activity as before.'
         return
+
+    if p.strip () == '':
+        print c('Rejected:', 'red'), 'No description.'
+        return
+
     r = Record (desc = p)
     print 'Including record at %s' % c(r.time, 'green')
     _w (r)
