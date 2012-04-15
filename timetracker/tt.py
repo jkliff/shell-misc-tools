@@ -149,9 +149,23 @@ def stop (p, stop_delimiter=COMMENT_CHAR):
     if _last_record ().desc != stop_delimiter:
         _w (Record (desc = stop_delimiter))
 
-def list_period (p):
+
+def __filter_TODAY (r):
+    return datetime.strptime (r.time, DATE_FORMAT).date() == datetime.today().date()
+
+LIST_FILTERS = {
+    'TODAY': __filter_TODAY
+}
+
+def list_period (p, q = None, lf = None):
+
+    if p not in ('TODAY'):
+        q = p
+    else:
+        lf = LIST_FILTERS [p]
+
     with (open (_f())) as f:
-        l = map (lambda x: Record (serial = x), list(f)[-int((0,p)[p is not None]):])
+        l = filter (lf, map (lambda x: Record (serial = x), list(f)[-int((0,q)[q is not None]):]))
 
     for i in range (len (l or [])):
         r = l[i]
