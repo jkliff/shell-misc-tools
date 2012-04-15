@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 CLI timetracker
 
@@ -125,8 +126,7 @@ _w = __write_datastore
 _i = __prompt_user_input
 _f = __gen_full_log_filename
 
-# commands 
-
+# commands
 def current (p):
     x =_last_record ()
     if x.desc == COMMENT_CHAR:
@@ -152,7 +152,6 @@ def stop (p, stop_delimiter=COMMENT_CHAR):
         _w (Record (desc = stop_delimiter))
 
 def list_period (p):
-
     with (open (_f())) as f:
         l = map (lambda x: Record (serial = x), list(f)[-int((0,p)[p is not None]):])
 
@@ -187,7 +186,6 @@ def parse_args ():
     return (cmd, p)
 
 def main ():
-
     __check_datadir ()
 
     cmd, params = parse_args ()
