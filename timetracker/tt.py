@@ -167,9 +167,11 @@ def list_period (p, q = None, lf = None):
     with (open (_f())) as f:
         l = filter (lf, map (lambda x: Record (serial = x), list(f)[-int((0,q)[q is not None]):]))
 
+    next_or_now = lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b]
+
     for i in range (len (l or [])):
         r = l[i]
-        n_time = (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
+        n_time = (next_or_now)(len(l), (i+1) < len (l))
 
         print "%s (%s)\n%s%s" % (c(r.time, 'white', attrs=['underline']), _td (r.time, n_time), 20*' ', r.desc)
 
