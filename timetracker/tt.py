@@ -140,7 +140,7 @@ def new_record (p):
     if not p:
         p = _i ('New record data:', TEMPLATE ['new_record'])
     # if last record is exaclty the same as the new, there's not really the need to create a new one.
-    if _last_record ().desc == p:
+    if _last_record ().desc == unicode (p, 'utf-8'):
         return
     r = Record (desc = p)
     print 'Including record at %s' % c(r.time, 'green')
