@@ -120,7 +120,9 @@ def current (p):
         print 'No current activity'
         return
 
-    print "Current activity:\n%s\nStarted at %s (%s)" % (x.desc, x.time, _ctd (x.time))
+    print c('Current activity:', attrs=['underline'])
+    print "%s\nStarted at %s (%s)" % (x.desc, c(x.time, 'green'), _ctd (x.time))
+
 
 def new_record (p):
     if not p:
