@@ -13,7 +13,7 @@ tt stop
 tt list TODAY
 tt list 20120215
 tt sum 2012
-tt sum 201201
+tt sum 201201github jkliff
 
 Dependencies:
 easy_install termcolor
@@ -158,7 +158,7 @@ def list_period (p):
 
     for i in range (len (l or [])):
         r = l[i]
-        n_time = (lambda x, b: (datetime.now(), x[min (len(x)-1, i+1)].time)[b])(l, (i+1) < len (l))
+        n_time = (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
 
         print "%s (%s)\n%s%s" % (c(r.time, 'white', attrs=['underline']), _td (r.time, n_time), 20*' ', r.desc)
 
