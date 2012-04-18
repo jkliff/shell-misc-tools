@@ -2,6 +2,10 @@
 
 """simple bulk image resizer (I use this a lot when trying to send someone pictures that are in too high resolution).
 
+Dependencies: 
+dialog 
+(macos: port install dialog)
+
 TODO: allow not to delete all images after convertion in case of --zip
 TODO: send per email the zip
 TODO: allow definition of max size of zip to break up in little ones automatically
