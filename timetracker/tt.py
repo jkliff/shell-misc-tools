@@ -169,6 +169,8 @@ def __build_record_list (p, q = None):
     with (open (_f())) as f:
         return filter (lf, map (lambda x: Record (serial = x), list(f)[-int((0,q)[q is not None]):])) or []
 
+interval_from = lambda l, i: (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
+
 def list_period (p, q = None, lf = None):
 
     l = __build_record_list (p, q)
@@ -177,7 +179,7 @@ def list_period (p, q = None, lf = None):
         if r.desc == COMMENT_CHAR:
             continue
 
-        n_time = (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
+        n_time = interval_from (l, i)
 
         print "%s (%s)\n%s%s" % (c(r.time, 'white', attrs=['underline']), _td (r.time, n_time), 20*' ', r.desc)
 
@@ -192,7 +194,7 @@ def summarize_period (p):
         if r.desc == COMMENT_CHAR:
             continue
 
-        n_time = (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
+        n_time = interval_from (l, i)
         if r.desc not in s:
             s [r.desc] = 0
 
