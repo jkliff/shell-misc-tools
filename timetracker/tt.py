@@ -156,7 +156,7 @@ CMDS = {
     'curr': current,
     'rec': new_record,
     'stop': stop,
-    'list': list_period,
+    'last': list_period,
     'sum': summarize_period
 }
 
