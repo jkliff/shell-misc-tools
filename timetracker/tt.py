@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 CLI timetracker
 
@@ -14,10 +16,15 @@ tt list TODAY
 tt list 20120215
 tt sum 2012
 tt sum 201201
+
+Dependencies:
+easy_install termcolor
+
+
 """
 import os.path
 from argparse import ArgumentParser
-from datetime import datetime
+from datetime import datetime, timedelta
 import tempfile
 import json
 
@@ -29,6 +36,7 @@ EDITOR = 'vim'
 
 COMMENT_CHAR = '#'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+DAY_FORMAT = '%Y-%m-%d'
 
 TEMPLATE = {'new_record': """%s Enter event description below. Lines starting with %s are ignored.
 """ % (COMMENT_CHAR, COMMENT_CHAR)}
@@ -112,8 +120,7 @@ _w = __write_datastore
 _i = __prompt_user_input
 _f = __gen_full_log_filename
 
-# commands 
-
+# commands
 def current (p):
     x =_last_record ()
     if x.desc == COMMENT_CHAR:
@@ -127,8 +134,14 @@ def new_record (p):
     if not p:
         p = _i ('New record data:', TEMPLATE ['new_record'])
     # if last record is exaclty the same as the new, there's not really the need to create a new one.
-    if _last_record ().desc == p:
+    if _last_record ().desc == unicode (p, 'utf-8'):
+        print c('Rejected:', 'red'), 'Same activity as before.'
         return
+
+    if p.strip () == '':
+        print c('Rejected:', 'red'), 'No description.'
+        return
+
     r = Record (desc = p)
     print 'Including record at %s' % c(r.time, 'green')
     _w (r)
@@ -138,19 +151,63 @@ def stop (p, stop_delimiter=COMMENT_CHAR):
     if _last_record ().desc != stop_delimiter:
         _w (Record (desc = stop_delimiter))
 
-def list_period (p):
+
+def __filter_TODAY (r):
+    return datetime.strptime (r.time, DATE_FORMAT).date() == datetime.today().date()
+
+LIST_FILTERS = {
+    'TODAY': __filter_TODAY
+}
+
+def __build_record_list (p, q = None):
+    if p not in ['TODAY']:
+        q = p
+        lf = lambda x: x
+    else:
+        lf = LIST_FILTERS [p]
 
     with (open (_f())) as f:
-        l = map (lambda x: Record (serial = x), list(f)[-int((0,p)[p is not None]):])
+        return filter (lf, map (lambda x: Record (serial = x), list(f)[-int((0,q)[q is not None]):])) or []
 
-    for i in range (len (l or [])):
+interval_from = lambda l, i: (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
+
+def list_period (p, q = None, lf = None):
+
+    l = __build_record_list (p, q)
+    for i in range (len (l)):
         r = l[i]
-        n_time = (lambda x, b: (datetime.now(), x[min (len(x)-1, i+1)].time)[b])(l, (i+1) < len (l))
+        if r.desc == COMMENT_CHAR:
+            continue
+
+        n_time = interval_from (l, i)
 
         print "%s (%s)\n%s%s" % (c(r.time, 'white', attrs=['underline']), _td (r.time, n_time), 20*' ', r.desc)
 
 def summarize_period (p):
-    print p
+    l =__build_record_list (p)
+
+    s = {}
+    total_records = 0
+
+    for i in range (len (l)):
+        r = l[i]
+        if r.desc == COMMENT_CHAR:
+            continue
+
+        n_time = interval_from (l, i)
+        if r.desc not in s:
+            s [r.desc] = 0
+
+        duration = _td (r.time, n_time).total_seconds ()
+        s [r.desc] += duration
+
+        total_records += duration
+
+    print c('Activity summary for %s' % c(datetime.strftime (datetime.today(), DAY_FORMAT), 'green'), attrs = ['underline'])
+    print 'Total time registered: %s' % c(str (timedelta (seconds = total_records)))
+    for k in sorted (s, lambda x,y: cmp (x, y)):
+        print " - %s\t:\t%s" % (k, timedelta (seconds=s[k]))
+
 
 CMDS = {
     'curr': current,
@@ -174,7 +231,6 @@ def parse_args ():
     return (cmd, p)
 
 def main ():
-
     __check_datadir ()
 
     cmd, params = parse_args ()
