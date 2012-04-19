@@ -2,22 +2,27 @@
 
 """simple bulk image resizer (I use this a lot when trying to send someone pictures that are in too high resolution).
 
-TODO: prompt user to select which images to convert.
+Dependencies: 
+dialog 
+(macos: port install dialog)
+
 TODO: allow not to delete all images after convertion in case of --zip
 TODO: send per email the zip
 TODO: allow definition of max size of zip to break up in little ones automatically
 TODO: possibly run convert jobs in parallel (check how many cores there are)
-TODO: avoid stopping the whole execution (currently only the current convert process is stopped if C-c is pressed)
+TODO: stop the whole execution (currently only the current convert process is stopped if C-c is pressed)
 """
 
 from argparse import ArgumentParser
 import os
 import os.path
-import urwid
 import re
 import sys
 import tempfile
 import zipfile
+
+from subprocess import Popen, PIPE
+import shlex
 
 # it is as pain in the ass to install this.
 #import PythonMagick
@@ -38,9 +43,21 @@ def parse_options():
     return parser.parse_args ()
 
 def prompt_user_for_imgs (path):
-    """TODO: really prompt the user"""
-    print 'Selecting images from %s' % path
-    return [os.path.join (path, f) for f in os.listdir (path) if f not in IGNORE_FILES]
+    """uses dialog (1) to select the images"""
+
+    #print 'Selecting images from %s' % path
+    cmd = shlex.split ("dialog --title \"Select images\" --stdout --checklist \"%s\", 24 80 20" % path)
+
+    o = [os.path.join (path, f) for f in os.listdir (path) if f not in IGNORE_FILES]
+    for p in o:
+        cmd.extend (('%s' % p, '', '')) 
+
+    print cmd
+    p = Popen (cmd, stdout=PIPE, stderr=PIPE)
+    if p.wait () == 0:
+        r = shlex.split (p.stdout.read())
+
+    return r
 
 def convert_images (l, target_dir):
     new_files = []
@@ -98,14 +115,13 @@ def main ():
     dest_dir = args.target
     if args.zip:
         dest_dir = tempfile.mkdtemp ()
-
     else:
         os.mkdir (dest_dir)
 
     generated_files = convert_images (imgs_to_convert, dest_dir)
 
     if args.zip:
-        package_images (args.target, generated_files, dest_dir)
+        package_images (args.target, generated_files)
 
 if __name__ == '__main__': 
     main()
