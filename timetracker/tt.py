@@ -24,7 +24,7 @@ easy_install termcolor
 """
 import os.path
 from argparse import ArgumentParser
-from datetime import datetime
+from datetime import datetime, timedelta
 import tempfile
 import json
 
@@ -36,6 +36,7 @@ EDITOR = 'vim'
 
 COMMENT_CHAR = '#'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+DAY_FORMAT = '%Y-%m-%d'
 
 TEMPLATE = {'new_record': """%s Enter event description below. Lines starting with %s are ignored.
 """ % (COMMENT_CHAR, COMMENT_CHAR)}
@@ -158,24 +159,53 @@ LIST_FILTERS = {
     'TODAY': __filter_TODAY
 }
 
-def list_period (p, q = None, lf = None):
-
+def __build_record_list (p, q = None):
     if p not in ['TODAY']:
         q = p
+        lf = lambda x: x
     else:
         lf = LIST_FILTERS [p]
 
     with (open (_f())) as f:
-        l = filter (lf, map (lambda x: Record (serial = x), list(f)[-int((0,q)[q is not None]):]))
+        return filter (lf, map (lambda x: Record (serial = x), list(f)[-int((0,q)[q is not None]):])) or []
 
-    for i in range (len (l or [])):
+def list_period (p, q = None, lf = None):
+
+    l = __build_record_list (p, q)
+    for i in range (len (l)):
         r = l[i]
+        if r.desc == COMMENT_CHAR:
+            continue
+
         n_time = (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
 
         print "%s (%s)\n%s%s" % (c(r.time, 'white', attrs=['underline']), _td (r.time, n_time), 20*' ', r.desc)
 
 def summarize_period (p):
-    print p
+    l =__build_record_list (p)
+
+    s = {}
+    total_records = 0
+
+    for i in range (len (l)):
+        r = l[i]
+        if r.desc == COMMENT_CHAR:
+            continue
+
+        n_time = (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
+        if r.desc not in s:
+            s [r.desc] = 0
+
+        duration = _td (r.time, n_time).total_seconds ()
+        s [r.desc] += duration
+
+        total_records += duration
+
+    print c('Activity summary for %s' % c(datetime.strftime (datetime.today(), DAY_FORMAT), 'green'), attrs = ['underline'])
+    print 'Total time registered: %s' % c(str (timedelta (seconds = total_records)))
+    for k in sorted (s, lambda x,y: cmp (x, y)):
+        print " - %s\t:\t%s" % (k, timedelta (seconds=s[k]))
+
 
 CMDS = {
     'curr': current,
