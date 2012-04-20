@@ -16,12 +16,14 @@ tt list TODAY
 tt list 20120215
 tt sum 2012
 tt sum 201201
+tt edit
+// tt add_log "foo"
 
 Dependencies:
 easy_install termcolor
 
-
 """
+
 import os.path
 from argparse import ArgumentParser
 from datetime import datetime, timedelta
@@ -39,10 +41,8 @@ COMMENT_CHAR = '#'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 DAY_FORMAT = '%Y-%m-%d'
 
-TEMPLATE = {
-    'new_record': """%s Enter event description below. Lines starting with %s are ignored.
-""" % (COMMENT_CHAR, COMMENT_CHAR),
-    'edit_record': """"""}
+TEMPLATE_NEW_RECORD = """%s Enter event description below. Lines starting with %s are ignored.
+""" % (COMMENT_CHAR, COMMENT_CHAR)
 
 DATA_DIR = os.path.expanduser ('~/.timetracker/')
 def __check_datadir (d=DATA_DIR):
@@ -201,7 +201,7 @@ def new_record (p):
         print c('Rejected:', 'red'), 'Same activity as before.'
         return
 
-    t = _i ('New record data:', TEMPLATE ['new_record'])
+    t = _i ('New record data:', TEMPLATE_NEW_RECORD )
 
     r = Record (desc = p, work_log = t)
     print 'Including record at %s' % c(r.time, 'green')
