@@ -27,6 +27,7 @@ from argparse import ArgumentParser
 from datetime import datetime, timedelta
 import tempfile
 import json
+import base64
 
 import termcolor
 c=termcolor.colored
@@ -38,8 +39,10 @@ COMMENT_CHAR = '#'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 DAY_FORMAT = '%Y-%m-%d'
 
-TEMPLATE = {'new_record': """%s Enter event description below. Lines starting with %s are ignored.
-""" % (COMMENT_CHAR, COMMENT_CHAR)}
+TEMPLATE = {
+    'new_record': """%s Enter event description below. Lines starting with %s are ignored.
+""" % (COMMENT_CHAR, COMMENT_CHAR),
+    'edit_record': """"""}
 
 DATA_DIR = os.path.expanduser ('~/.timetracker/')
 def __check_datadir (d=DATA_DIR):
@@ -51,16 +54,26 @@ def __check_datadir (d=DATA_DIR):
 class Record:
     time = None
     desc = None
+    work_log = None
 
-    def __init__ (self, serial = None, desc = None):
+    def __init__ (self, serial = None, desc = None, work_log = None):
         if serial:
             self.__dict__ = json.loads (serial)
         else:
             self.time = datetime.now().strftime (DATE_FORMAT)
             self.desc = desc
+            self.set_work_log (work_log)
 
     def toJson (self):
         return json.dumps (self.__dict__)
+
+    def set_work_log (self, m):
+        self.work_log = base64.b64encode (m.strip())
+
+    def get_work_log (self):
+        if self.work_log is None:
+            return None
+        return base64.b64decode (self.work_log)
 
 def _last_record ():
     r = None
@@ -68,13 +81,20 @@ def _last_record ():
         l = list (f)
         if len (l) > 0:
             r = l[-1]
-    return Record (serial = r)
+
+    rec = Record (serial = r)
+    if rec.desc == COMMENT_CHAR:
+        return None
+
+    return rec
 
 def __prompt_user_input (s, tmpl):
     """Prompt for user input writing on a temp file, calling an editor on it, and then reading its contents and then returning them. The temp file is deleted afterwards"""
 
     def comment_lines (t):
         s = ''
+        if t is None:
+            return s
         if type (list) != type (t):
             s = '%s %s' % (COMMENT_CHAR, t)
         else :
@@ -85,12 +105,12 @@ def __prompt_user_input (s, tmpl):
     with (open (t, 'w')) as f:
         f.write (tmpl)
         f.write (comment_lines (s))
-        f.write ("\n\n")
+        f.write ("\n")
 
     cmd = '%s "%s"' % (EDITOR, t)
     os.system (cmd)
     with (open (t)) as f:
-        msg = "\n".join ([l for l in f.readlines () if not l.startswith (COMMENT_CHAR)])
+        msg = ''.join ([l for l in f.readlines () if not l.startswith (COMMENT_CHAR)])
     os.remove (t)
 
     return msg
@@ -113,44 +133,18 @@ def __time_delta (b, e):
 
     return e - datetime.strptime (b, DATE_FORMAT)
 
-# convenience shortcuts
-_td = lambda b, e: __time_delta (b, e)
-_ctd = lambda b: (lambda e: _td(b, e))(datetime.now())
-_w = __write_datastore
-_i = __prompt_user_input
-_f = __gen_full_log_filename
+def __update_current (t):
+    r = _last_record ()
+    print r.get_work_log ()
+    print t
+    r.set_work_log (t)
+    l = []
+    with (open (_f())) as f:
+        l = f.readlines () [: -1]
 
-# commands
-def current (p):
-    x =_last_record ()
-    if x.desc == COMMENT_CHAR:
-        print 'No current activity'
-        return
-
-    print c('Current activity:', attrs=['underline'])
-    print "%s\nStarted at %s (%s)" % (x.desc, c(x.time, 'green'), _ctd (x.time))
-
-def new_record (p):
-    if not p:
-        p = _i ('New record data:', TEMPLATE ['new_record'])
-    # if last record is exaclty the same as the new, there's not really the need to create a new one.
-    if _last_record ().desc == unicode (p, 'utf-8'):
-        print c('Rejected:', 'red'), 'Same activity as before.'
-        return
-
-    if p.strip () == '':
-        print c('Rejected:', 'red'), 'No description.'
-        return
-
-    r = Record (desc = p)
-    print 'Including record at %s' % c(r.time, 'green')
-    _w (r)
-
-def stop (p, stop_delimiter=COMMENT_CHAR):
-    # if last entry is already a STOP we don't have to do anything.
-    if _last_record ().desc != stop_delimiter:
-        _w (Record (desc = stop_delimiter))
-
+    with (open (_f(), 'w')) as f:
+        l.append (r.toJson())
+        f.writelines (l)
 
 def __filter_TODAY (r):
     return datetime.strptime (r.time, DATE_FORMAT).date() == datetime.today().date()
@@ -169,7 +163,69 @@ def __build_record_list (p, q = None):
     with (open (_f())) as f:
         return filter (lf, map (lambda x: Record (serial = x), list(f)[-int((0,q)[q is not None]):])) or []
 
-interval_from = lambda l, i: (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
+__interval_from = lambda l, i: (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
+
+def __llpad (t, p):
+    if not t:
+        return ''
+    return "\n".join (['%s%s' % (p*' ', k) for k in t.split ("\n")])
+
+# convenience shortcuts
+_td = lambda b, e: __time_delta (b, e)
+_ctd = lambda b: (lambda e: _td(b, e))(datetime.now())
+_w = __write_datastore
+_i = __prompt_user_input
+_f = __gen_full_log_filename
+_u = __update_current
+
+# commands
+def current (p):
+    x = _last_record ()
+    if x.desc == COMMENT_CHAR:
+        print 'No current activity'
+        return
+
+    print c('Current activity:', attrs=['underline']), c (x.desc, 'red')
+    print x.get_work_log() or ''
+    print "Started at %s (%s)" % (c(x.time, 'green'), _ctd (x.time))
+
+def new_record (p):
+
+    if not p or p.strip () == '':
+        print c('Rejected:', 'red'), 'No description.'
+        return
+
+    # if last record is exaclty the same as the new, there's not really the need to create a new one.
+    r = _last_record ()
+    if r and _last_record ().desc == unicode (p, 'utf-8'):
+        print c('Rejected:', 'red'), 'Same activity as before.'
+        return
+
+    t = _i ('New record data:', TEMPLATE ['new_record'])
+
+    r = Record (desc = p, work_log = t)
+    print 'Including record at %s' % c(r.time, 'green')
+    _w (r)
+
+def add_log (p):
+    """include log line to current task"""
+
+def edit_current (p):
+    """edit current task"""
+    r = _last_record ()
+    if r is None:
+        print c ('Rejected:', 'red'), 'No current record'
+
+    t = _i (None, """%s Editing record %s (from %s)
+%s Lines starting with %s will be ignored
+%s"""% (COMMENT_CHAR, r.desc, r.time, COMMENT_CHAR, COMMENT_CHAR, r.get_work_log()))
+
+    _u (t)
+
+def stop (p, stop_delimiter=COMMENT_CHAR):
+    # if last entry is already a STOP we don't have to do anything.
+    if _last_record ().desc != stop_delimiter:
+        _w (Record (desc = stop_delimiter))
 
 def list_period (p, q = None, lf = None):
 
@@ -179,9 +235,9 @@ def list_period (p, q = None, lf = None):
         if r.desc == COMMENT_CHAR:
             continue
 
-        n_time = interval_from (l, i)
+        n_time = __interval_from (l, i)
 
-        print "%s (%s)\n%s%s" % (c(r.time, 'white', attrs=['underline']), _td (r.time, n_time), 20*' ', r.desc)
+        print "%s %s (%s)\n%s" % (c(r.time, 'white', attrs=['underline']), c(r.desc, 'red'), _td (r.time, n_time), __llpad (r.get_work_log(), 4))
 
 def summarize_period (p):
     l =__build_record_list (p)
@@ -208,13 +264,14 @@ def summarize_period (p):
     for k in sorted (s, lambda x,y: cmp (x, y)):
         print " - %s\t:\t%s" % (k, timedelta (seconds=s[k]))
 
-
 CMDS = {
     'curr': current,
-    'rec': new_record,
+    'rec':  new_record,
+    'edit': edit_current, 
+    'wl':   add_log,
     'stop': stop,
     'list': list_period,
-    'sum': summarize_period
+    'sum':  summarize_period
 }
 
 def parse_args ():
