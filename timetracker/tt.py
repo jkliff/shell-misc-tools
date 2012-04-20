@@ -270,8 +270,8 @@ CMDS = {
     'edit': edit_current, 
     'wl':   add_log,
     'stop': stop,
-    'list': list_period,
-    'sum':  summarize_period
+    'last': list_period,
+    'sum': summarize_period
 }
 
 def parse_args ():
