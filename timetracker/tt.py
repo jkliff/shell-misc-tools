@@ -255,7 +255,10 @@ def list_period (p, q = None, lf = None):
 
         n_time = __interval_from (l, i)
         work_log_lines = r.get_work_log().split ("\n")
-        print "%s %s (%s)\n%s" % (c(r.time, 'white', attrs=['underline']), c(r.desc, 'red'), _td (r.time, n_time), "\n".join ([x.ljust(4) for x in work_log_lines]))
+        #work_log_lines = [unicode (x).ljust(4) for x in work_log_lines]
+        work_log_lines = ['    %s' % unicode (x, 'utf-8') for x in work_log_lines]
+
+        print "%s %s (%s)\n%s" % (c(r.time, 'white', attrs=['underline']), c(r.desc, 'red'), _td (r.time, n_time), "\n".join (work_log_lines))
 
 def summarize_period (p):
     l =__build_record_list (p)
