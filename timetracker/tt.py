@@ -207,9 +207,6 @@ def new_record (p):
     print 'Including record at %s' % c(r.time, 'green')
     _w (r)
 
-def add_log (p):
-    """include log line to current task"""
-
 def edit_current (p):
     """edit current task"""
     r = _last_record ()
@@ -267,8 +264,7 @@ def summarize_period (p):
 CMDS = {
     'curr': current,
     'rec':  new_record,
-    'edit': edit_current, 
-    'wl':   add_log,
+    'edit': edit_current,
     'stop': stop,
     'last': list_period,
     'sum': summarize_period
