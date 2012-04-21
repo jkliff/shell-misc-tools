@@ -134,9 +134,8 @@ def __time_delta (b, e):
     return e - datetime.strptime (b, DATE_FORMAT)
 
 def __update_current (t):
+
     r = _last_record ()
-    print r.get_work_log ()
-    print t
     r.set_work_log (t)
     l = []
     with (open (_f())) as f:
@@ -209,6 +208,7 @@ def new_record (p):
 
 def edit_current (p):
     """edit current task"""
+
     r = _last_record ()
     if r is None:
         print c ('Rejected:', 'red'), 'No current record'
