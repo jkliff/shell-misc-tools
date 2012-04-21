@@ -1,8 +1,7 @@
 # some variables for later use
-local system=$(uname -s)
+local SYSTEM=$(uname -s)
 
 # The following lines were added by compinstall
-
 zstyle ':completion:*' completer _expand _complete _ignored
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
@@ -38,13 +37,13 @@ alias diff='colordiff'
 # support colored less
 alias less='less -R'
 
-if [[ $system = 'Darwin' ]] ; then 
+if [[ $SYSTEM = 'Darwin' ]] ; then
     alias xargs='gxargs'
     alias find='gfind'
 
-    if [[ $host = 'hesse' ]] ; then
-        alias mvim='/Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim'
-    fi
+#    if [[ $HOST = 'hesse' ]] ; then
+#        alias mvim='/Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim'
+#    fi
 fi
 
 if [[ $HOST = 'hesse' ]] ; then
@@ -56,7 +55,7 @@ fi
 autoload colors
 colors
 
-case $HOST in 
+case $HOST in
     hesse)
         hostcolor=blue
         ;;
@@ -78,6 +77,17 @@ case $HOST in
 
 esac
 
+# oh-my-zsh stuff
+ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
+source $ZSH/lib/git.zsh
+source $ZSH/plugins/git/git.plugin.zsh
+
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg[white]%}["
+ZSH_THEME_GIT_PROMPT_SUFFIX="]%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}●%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+
+
 usercolor=$hostcolor
 highlight=0
 
@@ -85,13 +95,21 @@ if [[ $EUID -eq 0 ]] ; then
     usercolor=red
     highlight=1
 fi
-PS_USER_PART="%{$fg[$usercolor]%}%n%{$reset_color%}"
-if [[ $highlight -eq 1 ]] ; then
-    PS_USER_PART="%U$PS_USER_PART"
-fi
-PS1="$PS_USER_PART@%{$fg[$hostcolor]%}%m%{$reset_color%}:%j:%3d/ %T%# "
+setopt promptSubst
+function precmd () {
+    PS_USER_PART="%{$fg[$usercolor]%}%n%{$reset_color%}"
+    if [[ $highlight -eq 1 ]] ; then
+        PS_USER_PART="%U$PS_USER_PART"
+    fi
 
+    local cb=$(current_branch)
+    if [ -n "$cb" ]; then
+        GIT_CUSTOM_STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$(current_branch)$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX "
+    fi
+
+    PROMPT="$PS_USER_PART@%{$fg[$hostcolor]%}%m%{$reset_color%}:%j:%3d/ $GIT_CUSTOM_STATUS%T%# "
+    export PROMPT
+}
 export SVN_EDITOR=vim
-export PS1
 
 cl () { cd $1; ls }
