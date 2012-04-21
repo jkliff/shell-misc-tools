@@ -33,6 +33,7 @@ alias l='ls -l'
 alias lA='ls -lA'
 alias lS='ls -lS'
 alias lt='ls -lt'
+alias irgrep='grep -irn'
 
 alias diff='colordiff'
 # support colored less
