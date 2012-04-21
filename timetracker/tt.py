@@ -268,7 +268,7 @@ def summarize_period (p):
         if r.desc == COMMENT_CHAR:
             continue
 
-        n_time = interval_from (l, i)
+        n_time = __interval_from (l, i)
         if r.desc not in s:
             s [r.desc] = 0
 
