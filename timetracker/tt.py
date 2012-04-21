@@ -30,7 +30,7 @@ from datetime import datetime, timedelta
 import tempfile
 import json
 import base64
-
+import re
 import termcolor
 c=termcolor.colored
 
@@ -68,7 +68,10 @@ class Record:
         return json.dumps (self.__dict__)
 
     def set_work_log (self, m):
-        self.work_log = base64.b64encode (m.strip())
+        if m:
+            self.work_log = base64.b64encode (m.strip())
+        else:
+            self.work_log = None
 
     def get_work_log (self):
         if self.work_log is None:
@@ -133,10 +136,8 @@ def __time_delta (b, e):
 
     return e - datetime.strptime (b, DATE_FORMAT)
 
-def __update_current (t):
+def __update_current (r):
 
-    r = _last_record ()
-    r.set_work_log (t)
     l = []
     with (open (_f())) as f:
         l = f.readlines () [: -1]
@@ -144,6 +145,7 @@ def __update_current (t):
     with (open (_f(), 'w')) as f:
         l.append (r.toJson())
         f.writelines (l)
+        f.write ("\n")
 
 def __filter_TODAY (r):
     return datetime.strptime (r.time, DATE_FORMAT).date() == datetime.today().date()
@@ -188,8 +190,9 @@ def current (p):
         return
 
     print c('Current activity:', attrs=['underline']), c (x.desc, 'red')
-    print x.get_work_log() or ''
     print "Started at %s (%s)" % (c(x.time, 'green'), _ctd (x.time))
+    print x.get_work_log() or ''
+    print '.'
 
 def new_record (p):
 
@@ -218,9 +221,23 @@ def edit_current (p):
 
     t = _i (None, """%s Editing record %s (from %s)
 %s Lines starting with %s will be ignored
-%s"""% (COMMENT_CHAR, r.desc, r.time, COMMENT_CHAR, COMMENT_CHAR, r.get_work_log()))
-
-    _u (t)
+%s Record description:
+%s
+%s Record time:
+%s
+%s Work log:
+%s"""% (COMMENT_CHAR, r.desc, r.time, COMMENT_CHAR, COMMENT_CHAR, COMMENT_CHAR, r.desc, COMMENT_CHAR, r.time, COMMENT_CHAR, r.get_work_log()))
+    print t
+    t = t.split ("\n")
+    print t
+    (d, ts) = (t[0], t[1])
+    wl = "\n".join (t[2:])
+    r = Record (desc = d, work_log = wl)
+    r.time = ts
+    print d
+    print ts
+    print wl
+    _u (r)
 
 def stop (p, stop_delimiter=COMMENT_CHAR):
     # if last entry is already a STOP we don't have to do anything.
