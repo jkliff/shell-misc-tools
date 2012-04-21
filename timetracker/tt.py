@@ -157,7 +157,7 @@ LIST_FILTERS = {
     'TODAY': __filter_TODAY
 }
 
-def __build_record_list (p, q = None):
+def __build_record_list (p, q = None, ignore_stops=True):
     """ p = listing paremeter, if any
         q = quantity of records to fetch. if not specified, takes all"""
 
@@ -170,7 +170,7 @@ def __build_record_list (p, q = None):
     with (open (_f())) as f:
         l = [Record (serial = x) for x in list(f)]
 
-    return filter (lf, [x for x in l if x.desc != COMMENT_CHAR][-int((0,q)[q is not None]):]) or []
+    return filter (lf, [x for x in l if not ignore_stops or x.desc != COMMENT_CHAR][-int((0,q)[q is not None]):]) or []
 
 __interval_from = lambda l, i: (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
 
@@ -291,7 +291,7 @@ def rebuild_records (p):
 
     print 'Rewriting store...',
 
-    records = __build_record_list (None)
+    records = __build_record_list (None, ignore_stops = False)
     with (open (_f(), 'w')) as f:
         f.writelines (["%s\n" % x.toJson() for x in sorted (records, key=lambda r: r.time)])
 
