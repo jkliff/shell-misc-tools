@@ -172,11 +172,6 @@ def __build_record_list (p, q = None):
 
 __interval_from = lambda l, i: (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
 
-def __llpad (t, p):
-    if not t:
-        return ''
-    return "\n".join (['%s%s' % (p*' ', k) for k in t.split ("\n")])
-
 # convenience shortcuts
 _td = lambda b, e: __time_delta (b, e)
 _ctd = lambda b: (lambda e: _td(b, e))(datetime.now())
@@ -259,8 +254,8 @@ def list_period (p, q = None, lf = None):
             continue
 
         n_time = __interval_from (l, i)
-
-        print "%s %s (%s)\n%s" % (c(r.time, 'white', attrs=['underline']), c(r.desc, 'red'), _td (r.time, n_time), __llpad (r.get_work_log(), 4))
+        work_log_lines = r.get_work_log().split ("\n")
+        print "%s %s (%s)\n%s" % (c(r.time, 'white', attrs=['underline']), c(r.desc, 'red'), _td (r.time, n_time), "\n".join ([x.ljust(4) for x in work_log_lines]))
 
 def summarize_period (p):
     l =__build_record_list (p)
