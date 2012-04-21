@@ -106,7 +106,7 @@ def __prompt_user_input (s, tmpl):
 
     t = tempfile.mktemp ()
     with (open (t, 'w')) as f:
-        f.write (tmpl)
+        f.write (tmpl.encode ('utf-8'))
         f.write (comment_lines (s))
         f.write ("\n")
 
@@ -138,6 +138,7 @@ def __time_delta (b, e):
 
 def __update_current (r):
 
+    print 'Updating store...',
     l = []
     with (open (_f())) as f:
         l = f.readlines () [: -1]
@@ -222,16 +223,19 @@ def edit_current (p):
         print c ('Rejected:', 'red'), 'No current record'
         return
 
-    t = _i (None, """%s Editing record %s (from %s)
+    msg = u"""%s Editing record %s
 %s Lines starting with %s will be ignored
 %s Record description:
 %s
 %s Record time:
 %s
 %s Work log:
-%s"""% (COMMENT_CHAR, r.desc, r.time, COMMENT_CHAR, COMMENT_CHAR, COMMENT_CHAR, r.desc, COMMENT_CHAR, r.time, COMMENT_CHAR, r.get_work_log()))
+%s""" % (COMMENT_CHAR, r.desc, COMMENT_CHAR,
+        COMMENT_CHAR, COMMENT_CHAR, r.desc,
+        COMMENT_CHAR, r.time, COMMENT_CHAR,
+        unicode(r.get_work_log (), 'utf-8'))
 
-    t = t.split ("\n")
+    t = _i (None, msg).split ("\n")
 
     (d, ts) = (t[0], t[1])
     wl = "\n".join (t[2:])
