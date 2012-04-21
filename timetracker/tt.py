@@ -68,7 +68,8 @@ class Record:
         return json.dumps (self.__dict__)
 
     def set_work_log (self, m):
-        self.work_log = base64.b64encode (m.strip())
+        if m:
+            self.work_log = base64.b64encode (m.strip())
 
     def get_work_log (self):
         if self.work_log is None:
@@ -135,6 +136,8 @@ def __time_delta (b, e):
 
 def __update_current (t):
 
+    print 'Updating store...',
+
     r = _last_record ()
     r.set_work_log (t)
     l = []
@@ -144,6 +147,8 @@ def __update_current (t):
     with (open (_f(), 'w')) as f:
         l.append (r.toJson())
         f.writelines (l)
+
+    print 'done.'
 
 def __filter_TODAY (r):
     return datetime.strptime (r.time, DATE_FORMAT).date() == datetime.today().date()
@@ -264,14 +269,26 @@ def summarize_period (p):
     for k in sorted (s, lambda x,y: cmp (x, y)):
         print " - %s\t:\t%s" % (k, timedelta (seconds=s[k]))
 
+def rebuild_records (p):
+    """Rewrites the datastore. Useful when records are manipulated or to upgrade a version."""
+
+    print 'Rewriting store...',
+
+    records = __build_record_list (None)
+    with (open (_f(), 'w')) as f:
+        f.writelines (["%s\n" % x.toJson() for x in sorted (records, key=lambda r: r.time)])
+
+    print 'done.'
+
 CMDS = {
-    'curr': current,
-    'rec':  new_record,
-    'edit': edit_current, 
-    'wl':   add_log,
-    'stop': stop,
-    'last': list_period,
-    'sum': summarize_period
+    'curr':     current,
+    'rec':      new_record,
+    'edit':     edit_current,
+    'wl':       add_log,
+    'stop':     stop,
+    'last':     list_period,
+    'sum':      summarize_period,
+    'rebase':   rebuild_records
 }
 
 def parse_args ():
