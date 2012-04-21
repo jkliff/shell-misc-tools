@@ -153,6 +153,9 @@ LIST_FILTERS = {
 }
 
 def __build_record_list (p, q = None):
+    """ p = listing paremeter, if any
+        q = quantity of records to fetch. if not specified, takes all"""
+
     if p not in ['TODAY']:
         q = p
         lf = lambda x: x
