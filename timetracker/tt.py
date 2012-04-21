@@ -163,7 +163,7 @@ def __build_record_list (p, q = None):
 
     if p not in ['TODAY']:
         q = p
-        lf = lambda x: x
+        lf = lambda x: True
     else:
         lf = LIST_FILTERS [p]
 
