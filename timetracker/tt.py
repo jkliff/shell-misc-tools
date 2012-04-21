@@ -147,6 +147,8 @@ def __update_current (r):
         f.writelines (l)
         f.write ("\n")
 
+    print 'done.'
+
 def __filter_TODAY (r):
     return datetime.strptime (r.time, DATE_FORMAT).date() == datetime.today().date()
 
@@ -185,7 +187,7 @@ _u = __update_current
 # commands
 def current (p):
     x = _last_record ()
-    if x.desc == COMMENT_CHAR:
+    if x is None:
         print 'No current activity'
         return
 
@@ -218,6 +220,7 @@ def edit_current (p):
     r = _last_record ()
     if r is None:
         print c ('Rejected:', 'red'), 'No current record'
+        return
 
     t = _i (None, """%s Editing record %s (from %s)
 %s Lines starting with %s will be ignored
@@ -227,16 +230,15 @@ def edit_current (p):
 %s
 %s Work log:
 %s"""% (COMMENT_CHAR, r.desc, r.time, COMMENT_CHAR, COMMENT_CHAR, COMMENT_CHAR, r.desc, COMMENT_CHAR, r.time, COMMENT_CHAR, r.get_work_log()))
-    print t
+
     t = t.split ("\n")
-    print t
+
     (d, ts) = (t[0], t[1])
     wl = "\n".join (t[2:])
+
     r = Record (desc = d, work_log = wl)
     r.time = ts
-    print d
-    print ts
-    print wl
+
     _u (r)
 
 def stop (p, stop_delimiter=COMMENT_CHAR):
@@ -281,16 +283,29 @@ def summarize_period (p):
     for k in sorted (s, lambda x,y: cmp (x, y)):
         print " - %s\t:\t%s" % (k, timedelta (seconds=s[k]))
 
+def rebuild_records (p):
+    """Rewrites the datastore. Useful when records are manipulated or to upgrade a version."""
+
+    print 'Rewriting store...',
+
+    records = __build_record_list (None)
+    with (open (_f(), 'w')) as f:
+        f.writelines (["%s\n" % x.toJson() for x in sorted (records, key=lambda r: r.time)])
+
+    print 'done.'
+
 CMDS = {
-    'curr': current,
-    'rec':  new_record,
-    'edit': edit_current,
-    'stop': stop,
-    'last': list_period,
-    'sum': summarize_period
+    'curr':     current,
+    'rec':      new_record,
+    'edit':     edit_current,
+    'stop':     stop,
+    'last':     list_period,
+    'sum':      summarize_period,
+    'rebase':   rebuild_records
 }
 
 def parse_args ():
+
     parser = ArgumentParser (description = 'Timetracker')
     parser.add_argument ('command', type=str, nargs=1, help='Action to be executed: %s' % ', '.join (sorted(CMDS.keys())), default='list')
     parser.add_argument ('param', type=str, nargs='?', help='parameters')
