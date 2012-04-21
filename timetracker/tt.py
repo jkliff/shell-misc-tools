@@ -32,6 +32,8 @@ import json
 import base64
 import re
 import termcolor
+import shutil
+
 c=termcolor.colored
 
 # TODO: improve this to resolve the editor dinamically ($EDITOR, or what is configured)
@@ -39,6 +41,7 @@ EDITOR = 'vim'
 
 COMMENT_CHAR = '#'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+DATE_FORMAT_BACKUP_SUFFIX = '%Y%m%d%H%M%S'
 DAY_FORMAT = '%Y-%m-%d'
 
 TEMPLATE_NEW_RECORD = """%s Enter event description below. Lines starting with %s are ignored.
@@ -124,6 +127,9 @@ def __gen_full_log_filename (d=DATA_DIR):
 
 def __write_datastore (r):
     """Updates the datastore"""
+
+    _b()
+
     print 'Updating store...',
     with (open (_f(), 'a')) as f:
         f.write (r.toJson ())
@@ -131,12 +137,18 @@ def __write_datastore (r):
     print 'done.'
 
 def __time_delta (b, e):
-    if type (datetime.now()) != type (e):
-        e = datetime.strptime (e, DATE_FORMAT)
+    now = datetime.now()
 
-    return e - datetime.strptime (b, DATE_FORMAT)
+    if type (now) != type (e):
+        e = datetime.strptime (e, DATE_FORMAT)
+    if type (now) != type (b):
+        b = datetime.strptime (b, DATE_FORMAT)
+
+    return e - b
 
 def __update_current (r):
+
+    _b()
 
     print 'Updating store...',
     l = []
@@ -174,6 +186,25 @@ def __build_record_list (p, q = None, ignore_stops=True):
 
 __interval_from = lambda l, i: (lambda x, b: (datetime.now(), l[min (x-1, i+1)].time)[b])(len(l), (i+1) < len (l))
 
+def __check_and_do_store_backup (force=False):
+    """makes a backup of the datastore. if not forced, will create a backup everytime the last backup is older than one day."""
+
+    will_do_backup = False
+    f = _f()
+    if not force:
+        will_do_backup = _td (datetime.fromtimestamp (os.stat(f).st_birthtime), datetime.now()) > timedelta (days=1)
+    else:
+        will_do_backup = True
+
+    if not will_do_backup:
+        return
+
+    print 'Doing safety backup...',
+    backup_name = f + '-%s.backup' % datetime.now().strftime (DATE_FORMAT_BACKUP_SUFFIX)
+    os.rename (f, backup_name)
+    shutil.copyfile (backup_name, f)
+    print 'done.'
+
 # convenience shortcuts
 _td = lambda b, e: __time_delta (b, e)
 _ctd = lambda b: (lambda e: _td(b, e))(datetime.now())
@@ -181,6 +212,7 @@ _w = __write_datastore
 _i = __prompt_user_input
 _f = __gen_full_log_filename
 _u = __update_current
+_b = __check_and_do_store_backup
 
 # commands
 def current (p):
@@ -288,6 +320,8 @@ def summarize_period (p):
 
 def rebuild_records (p):
     """Rewrites the datastore. Useful when records are manipulated or to upgrade a version."""
+
+    _b(True)
 
     print 'Rewriting store...',
 
