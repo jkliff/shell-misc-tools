@@ -82,12 +82,17 @@ esac
 ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
 source $ZSH/lib/git.zsh
 source $ZSH/plugins/git/git.plugin.zsh
+source $ZSH/plugins/svn/svn.plugin.zsh
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg[white]%}["
 ZSH_THEME_GIT_PROMPT_SUFFIX="]%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}●%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
+ZSH_THEME_SVN_PROMPT_PREFIX="svn:("
+ZSH_THEME_SVN_PROMPT_SUFFIX=")"
+ZSH_THEME_SVN_PROMPT_DIRTY="%{$fg[red]%} ✘ %{$reset_color%}"
+ZSH_THEME_SVN_PROMPT_CLEAN=" "
 
 usercolor=$hostcolor
 highlight=0
@@ -103,12 +108,18 @@ function precmd () {
         PS_USER_PART="%U$PS_USER_PART"
     fi
 
-    local cb=$(current_branch)
-    if [ -n "$cb" ]; then
-        GIT_CUSTOM_STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$(current_branch)$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX "
+    REPO_CUSTOM_STATUS=
+
+    if [[ $(in_svn) -eq 1 ]]  ; then
+        REPO_CUSTOM_STATUS="[$(svn_get_repo_name):$(svn_get_rev_nr)$(svn_dirty)] "
+    else
+        local cb=$(current_branch)
+        if [ -n "$cb" ]; then
+            REPO_CUSTOM_STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$(current_branch)$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX "
+        fi
     fi
 
-    PROMPT="$PS_USER_PART@%{$fg[$hostcolor]%}%m%{$reset_color%}:%j:%3d/ $GIT_CUSTOM_STATUS%T%# "
+    PROMPT="$PS_USER_PART@%{$fg[$hostcolor]%}%m%{$reset_color%}:%j:%3d/ $REPO_CUSTOM_STATUS%T%# "
     export PROMPT
 }
 export SVN_EDITOR=vim
