@@ -1,3 +1,6 @@
+# ZSH init script.
+# Depends on the availability of oh-my-zsh (see configuration of $ZSH variable)
+
 # some variables for later use
 local SYSTEM=$(uname -s)
 
@@ -79,6 +82,7 @@ case $HOST in
 esac
 
 # oh-my-zsh stuff
+
 ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
 source $ZSH/lib/git.zsh
 source $ZSH/plugins/git/git.plugin.zsh
