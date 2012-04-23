@@ -82,6 +82,8 @@ case $HOST in
 esac
 
 # oh-my-zsh stuff
+bindkey ";5C" forward-word
+bindkey ";5D" backward-word
 
 ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
 source $ZSH/lib/git.zsh
