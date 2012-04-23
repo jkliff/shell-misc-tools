@@ -35,6 +35,7 @@ alias l='ls -l'
 alias lA='ls -lA'
 alias lS='ls -lS'
 alias lt='ls -lt'
+alias grep='grep --color'
 alias irgrep='grep -irn'
 
 alias diff='colordiff'
