@@ -1,5 +1,6 @@
 # ZSH init script.
 # Depends on the availability of oh-my-zsh (see configuration of $ZSH variable)
+# git clone git://github.com/robbyrussell/oh-my-zsh.git
 
 # some variables for later use
 local SYSTEM=$(uname -s)
