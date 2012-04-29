@@ -1,6 +1,9 @@
 # ZSH init script.
-# Depends on the availability of oh-my-zsh (see configuration of $ZSH variable)
-# git clone git://github.com/robbyrussell/oh-my-zsh.git
+# Dependencies: 
+# - oh-my-zsh (see configuration of $ZSH variable)
+#   git clone git://github.com/robbyrussell/oh-my-zsh.git
+# - zsh-syntax-highlighting ($ZSH_SYNTAX)
+#   git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
 
 # some variables for later use
 local SYSTEM=$(uname -s)
@@ -83,6 +86,8 @@ case $HOST in
 
 esac
 
+ZSH_SYNTAX=$HOME/Desktop/dev-tools/zsh-syntax-highlighting
+
 # oh-my-zsh stuff
 bindkey ";5C" forward-word
 bindkey ";5D" backward-word
@@ -131,5 +136,7 @@ function precmd () {
     export PROMPT
 }
 export SVN_EDITOR=vim
+
+source $ZSH_SYNTAX/zsh-syntax-highlighting.zsh
 
 cl () { cd $1; ls }
