@@ -137,8 +137,12 @@ function precmd () {
     PROMPT="$PS_USER_PART@%{$fg[$hostcolor]%}%m%{$reset_color%}:%j:%3d/ $REPO_CUSTOM_STATUS%T%# "
     export PROMPT
 }
+
 export SVN_EDITOR=vim
 
 source $ZSH_SYNTAX/zsh-syntax-highlighting.zsh
 
 cl () { cd $1; ls }
+
+# mark all stderr as red
+exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
