@@ -93,11 +93,8 @@ bindkey ";5C" forward-word
 bindkey ";5D" backward-word
 
 ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
-#source $ZSH/lib/git.zsh
-#source $ZSH/plugins/git/git.plugin.zsh
-#source $ZSH/plugins/svn/svn.plugin.zsh
 DISABLE_AUTO_UPDATE="true" source $ZSH/oh-my-zsh.sh
-plugins=(git svn)
+plugins=(git svn osx)
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg[white]%}["
 ZSH_THEME_GIT_PROMPT_SUFFIX="]%{$reset_color%}"
