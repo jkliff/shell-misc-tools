@@ -33,6 +33,7 @@ import base64
 import re
 import termcolor
 import shutil
+import sys
 
 c=termcolor.colored
 
@@ -188,6 +189,11 @@ __interval_from = lambda l, i: (lambda x, b: (datetime.now(), l[min (x-1, i+1)].
 
 def __check_and_do_store_backup (force=False):
     """makes a backup of the datastore. if not forced, will create a backup everytime the last backup is older than one day."""
+
+    if sys.platform == 'linux2':
+        """we don't do this check right now since it does not work under linux.
+        TODO: fix this!"""
+        return
 
     will_do_backup = False
     f = _f()
