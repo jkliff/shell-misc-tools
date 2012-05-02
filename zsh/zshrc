@@ -40,7 +40,7 @@ alias lA='ls -lA'
 alias lS='ls -lS'
 alias lt='ls -lt'
 alias grep='grep --color'
-alias irgrep='grep -irn'
+alias irgrep='grep -irn --exclude-dir=.svn --exclude-dir=.git'
 
 alias diff='colordiff'
 # support colored less
