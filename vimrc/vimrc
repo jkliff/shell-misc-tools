@@ -42,3 +42,6 @@ set backspace=indent,eol,start
 autocmd FileType make set noexpandtab
 
 map <Leader>b :MiniBufExplorer<cr>
+
+" syntax hightlight configurations:
+au BufRead,BufNewFile *.sql_diff set filetype=sql
