@@ -13,6 +13,7 @@ DISABLE_AUTO_UPDATE="true" source $ZSH/oh-my-zsh.sh
 
 # some variables for later use
 local SYSTEM=$(uname -s)
+export LANG=en_US
 
 # The following lines were added by compinstall
 zstyle ':completion:*' completer _expand _complete _ignored
