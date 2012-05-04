@@ -63,6 +63,8 @@ class Record:
     def __init__ (self, serial = None, desc = None, work_log = None):
         if serial:
             self.__dict__ = json.loads (serial)
+            # we have to correct encoding as we read
+            self.desc = self.desc.encode ('utf-8')
         else:
             self.time = datetime.now().strftime (DATE_FORMAT)
             self.desc = desc
@@ -265,9 +267,13 @@ def edit_current (p):
 %s Record time:
 %s
 %s Work log:
-%s""" % (COMMENT_CHAR, r.desc, COMMENT_CHAR,
-        COMMENT_CHAR, COMMENT_CHAR, r.desc,
-        COMMENT_CHAR, r.time, COMMENT_CHAR,
+%s""" % (COMMENT_CHAR, r.desc,
+        COMMENT_CHAR, COMMENT_CHAR,
+        COMMENT_CHAR,
+        r.desc,
+        COMMENT_CHAR,
+        r.time,
+        COMMENT_CHAR,
         unicode(r.get_work_log (), 'utf-8'))
 
     t = _i (None, msg).split ("\n")
@@ -295,9 +301,12 @@ def list_period (p, q = None, lf = None):
 
         n_time = __interval_from (l, i)
         work_log_lines = r.get_work_log().split ("\n")
-        work_log_lines = ['    %s' % unicode (x, 'utf-8') for x in work_log_lines]
+        work_log_lines = ['    %s' % x for x in work_log_lines]
 
-        print "%s %s (%s)\n%s" % (c(r.time, 'white', attrs=['underline']), c(r.desc, 'red'), _td (r.time, n_time), "\n".join (work_log_lines))
+        wll = "\n".join (work_log_lines)
+
+        print c(r.time, 'white', attrs=['underline']), c(r.desc, 'red'), _td (r.time, n_time)
+        print wll
 
 def summarize_period (p):
     l =__build_record_list (p)
