@@ -5,6 +5,12 @@
 # - zsh-syntax-highlighting ($ZSH_SYNTAX)
 #   git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
 
+# load oh my zsh
+
+ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
+plugins=(git svn osx)
+DISABLE_AUTO_UPDATE="true" source $ZSH/oh-my-zsh.sh
+
 # some variables for later use
 local SYSTEM=$(uname -s)
 
@@ -91,10 +97,6 @@ ZSH_SYNTAX=$HOME/Desktop/dev-tools/zsh-syntax-highlighting
 # oh-my-zsh stuff
 bindkey ";5C" forward-word
 bindkey ";5D" backward-word
-
-ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
-plugins=(git svn osx)
-DISABLE_AUTO_UPDATE="true" source $ZSH/oh-my-zsh.sh
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg[white]%}["
 ZSH_THEME_GIT_PROMPT_SUFFIX="]%{$reset_color%}"
