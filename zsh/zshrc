@@ -26,6 +26,10 @@ zstyle :compinstall filename '/Users/john/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+
+# disable some annoyances from zsh
+unsetopt correct_all
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
