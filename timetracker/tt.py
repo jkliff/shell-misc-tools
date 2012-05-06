@@ -364,6 +364,11 @@ def parse_args ():
     a = parser.parse_args ()
 
     cmd = a.command [0]
+    if cmd not in CMDS:
+        print 'Command %s not recognized.' % cmd
+        parser.print_help ()
+        return (None, None)
+
     p = None
     if a.param:
         p = a.param
@@ -374,7 +379,8 @@ def main ():
     __check_datadir ()
 
     cmd, params = parse_args ()
-    CMDS [cmd] (params)
+    if cmd:
+        CMDS [cmd] (params)
 
 if __name__ == '__main__':
     main()
