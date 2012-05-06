@@ -29,6 +29,7 @@ compinit
 
 # disable some annoyances from zsh
 unsetopt correct_all
+unsetopt autopushd
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
