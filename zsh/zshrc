@@ -28,12 +28,13 @@ compinit
 # End of lines added by compinstall
 
 # disable some annoyances from zsh
+unsetopt share_history
 unsetopt correct_all
 unsetopt autopushd
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=1000
+HISTSIZE=10000
 SAVEHIST=1000
 bindkey -e
 # End of lines configured by zsh-newuser-install
