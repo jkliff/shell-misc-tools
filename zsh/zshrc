@@ -62,6 +62,7 @@ alias less='less -R'
 if [[ $SYSTEM = 'Darwin' ]] ; then
     alias xargs='gxargs'
     alias find='gfind'
+    alias kill='gkill'
 
 #    if [[ $HOST = 'hesse' ]] ; then
 #        alias mvim='/Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim'
