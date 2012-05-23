@@ -5,7 +5,7 @@ if [[ ! -e $BIN ]] ; then
     mkdir $BIN
 fi
 
-INCLUDE="timetracker/tt.py misc/bulk_image_convert.py db_ctl/db_ctl"
+INCLUDE="timetracker/tt.py misc/bulk_image_convert.py"
 
 d=$(date +%s)
 for x in $INCLUDE ; do
