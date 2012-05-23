@@ -7,6 +7,8 @@ set guifont=Bitstream\ Vera\ Sans\ Mono\ 8
 
 set cursorline
 
+filetype plugin on
+
 syntax enable
 
 if has ('gui_running')
