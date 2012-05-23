@@ -12,7 +12,7 @@ for x in $INCLUDE ; do
     y=$(basename $x)
     if [[ -e $BIN/$y ]] ; then
         b=$BIN/.$y-$d
-        echo "Saving backup of exisgin $x to $b"
+        echo "Saving backup of existing $x to $b"
         cp $BIN/$y $b
     fi
     cp -v $x $BIN
