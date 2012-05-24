@@ -152,4 +152,4 @@ source $ZSH_SYNTAX/zsh-syntax-highlighting.zsh
 cl () { cd $1; ls }
 
 # mark all stderr as red
-exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
+#exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
