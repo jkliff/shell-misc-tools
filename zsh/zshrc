@@ -153,3 +153,7 @@ cl () { cd $1; ls }
 
 # mark all stderr as red
 #exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
+
+# zsh has a built in which command. WTF?!
+# Really: WHY? Until I find a clean solution, this helps.
+alias which=/usr/bin/which
