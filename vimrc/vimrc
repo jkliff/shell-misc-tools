@@ -47,3 +47,8 @@ map <Leader>b :MiniBufExplorer<cr>
 
 " syntax hightlight configurations:
 au BufRead,BufNewFile *.sql_diff set filetype=sql
+
+let Tlist_Ctags_Cmd = "/usr/bin/ctags"
+let Tlist_WinWidth = 50
+map <F4> :TlistToggle<cr>
+
