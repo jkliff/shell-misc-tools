@@ -7,3 +7,6 @@ if [[ ! -d ~/.vim ]] ; then
 fi
 
 cp -R vimrc/vim/* ~/.vim/
+
+/usr/bin/which -s ctags
+[[ $? != "0" ]] && echo "ctags not found. Install for your platform for full features."
