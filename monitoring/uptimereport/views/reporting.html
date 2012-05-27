@@ -1,0 +1,76 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Uptimelog</title>
+    <script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
+ </head>
+<body>
+Uptime
+<div id="placeholder" style="width:1100px;height:500px;"></div>
+</body>
+<script>
+$(function () {
+
+/*
+    var d1 = [], d2 = [], d3 = [];
+    for (i in data) {
+        if (!data[i] || ! data[i][0]) continue;
+
+        d1.push ([i, parseFloat (data [i][0])]);
+        d2.push ([i, parseFloat (data [i][1])]);
+        d3.push ([i, parseFloat (data [i][2])]);
+    }
+
+    console.log (d1);
+    $.plot ($("#placeholder"), [{
+            data: d1,
+            lines: { show: true, fill: false }
+        },
+        {
+            data: d2,
+            lines: { show: true, fill: false }
+        },
+        {
+            data: d3,
+            lines: { show: true, fill: false }
+        }]
+    );
+*/
+        var onDataReceived = function (data) {
+    
+        var d1 = [], d2 = [], d3 = [];
+        for (i in data) {
+            if (!data[i] || ! data[i][0]) continue;
+    
+            d1.push ([i, parseFloat (data [i][0])]);
+            d2.push ([i, parseFloat (data [i][1])]);
+            d3.push ([i, parseFloat (data [i][2])]);
+        }
+    
+        console.log (d1);
+        $.plot ($("#placeholder"), [{
+                data: d1,
+                lines: { show: true, fill: false }
+            },
+            {
+                data: d2,
+                lines: { show: true, fill: false }
+            },
+            {
+                data: d3,
+                lines: { show: true, fill: false }
+            }]
+        );
+
+    }
+
+    $.ajax({
+            url: 'http://localhost:7777/uptime',
+            method: 'GET',
+            dataType: 'json',
+            success: onDataReceived
+        });
+});
+</script>
+</html>
