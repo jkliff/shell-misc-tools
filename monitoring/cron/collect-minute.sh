@@ -4,4 +4,8 @@ LOGDIR=$HOME/.simple-monitoring/logs
 
 [[ ! -d $LOGDIR ]] && mkdir -p $LOGDIR
 
-uptime >> $LOGDIR/uptimelog
+UPTIME=$(uptime)
+echo $UPTIME >> $LOGDIR/uptimelog
+
+echo $UPTIME >> $LOGDIR/dflog
+df >> $LOGDIR/dflog
