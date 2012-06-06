@@ -9,7 +9,16 @@ echo 'Installing dependencies'
 
 # install dependencies.
 mkdir -p ~/.vim/autoload ~/.vim/bundle;
-curl -so ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+
+CURL=`which curl`
+if [[ $CURL != "" ]] ; then
+    CURL="$CURL -so"
+else
+    CURL=`which wget`
+    CURL="$CURL -O"
+fi
+
+$CURL ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 
 pushd .
 cd ~/.vim/bundle
@@ -27,5 +36,5 @@ echo 'Installing vimrc'
 cp vimrc/vimrc ~/.vimrc
 cp -R vimrc/vim/* ~/.vim/
 
-/usr/bin/which -s ctags
+/usr/bin/which ctags > /dev/null
 [[ $? != "0" ]] && echo "ctags not found. Install for your platform for full features."
