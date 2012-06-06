@@ -1,7 +1,8 @@
 #!/bin/bash
 
+cp vimrc/vimrc ~/.vimrc
+
 if [[ ! -d ~/.vim ]] ; then
-    echo 'Creating ~/.vim dir'
     mkdir ~/.vim ;
 fi
 
