@@ -35,6 +35,7 @@ source ~/.vim/plugin/imaps.vim
 
 map <F2> :NERDTreeToggle<CR>
 
+set hlsearch
 set list listchars=trail:·,precedes:«,extends:»,tab:▸\  
 
 " trying to make vim work properly in macos
