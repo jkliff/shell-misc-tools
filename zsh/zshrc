@@ -94,7 +94,7 @@ case $HOST in
     morgenthau)
         hostcolor=green
         ;;
-    zlws-jj)
+    zlws-jj[0-9])
         hostcolor=magenta
         ;;
     *)
@@ -109,6 +109,10 @@ ZSH_SYNTAX=$HOME/Desktop/dev-tools/zsh-syntax-highlighting
 bindkey ";5C" forward-word
 bindkey ";5D" backward-word
 
+
+###############################################################################
+# prompt config
+#
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg[white]%}["
 ZSH_THEME_GIT_PROMPT_SUFFIX="]%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}●%{$reset_color%}"
@@ -147,6 +151,8 @@ function precmd () {
     PROMPT="$PS_USER_PART@%{$fg[$hostcolor]%}%m%{$reset_color%}:%j:%3d/ $REPO_CUSTOM_STATUS%T%# "
     export PROMPT
 }
+RPROMPT="%(?..%{$bg[red]$fg_bold[white]%}:( (%?%)%{$reset_color%} )"
+###############################################################################
 
 export SVN_EDITOR=vim
 
