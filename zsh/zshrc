@@ -76,6 +76,7 @@ if [[ $HOST = 'hesse' ]] ; then
     alias zssh='ssh -i ~/.ssh/zkeys/id_rsa'
     alias zscp='scp -i ~/.ssh/zkeys/id_rsa'
     alias python='python2.7'
+    alias zmvn='mvn -s ~/.m2/zsettings.xml'
 fi
 
 autoload colors
@@ -166,3 +167,12 @@ cl () { cd $1; ls }
 # zsh has a built in which command. WTF?!
 # Really: WHY? Until I find a clean solution, this helps.
 alias which=/usr/bin/which
+
+# locates class among jars
+# usage: Fjar CLASSNAME PATH
+function Fjar {
+    for i in `find $2 -type f -iname '*jar'` ; do 
+        echo $i ;
+        jar -tf $i | grep $1 ;
+    done
+}
