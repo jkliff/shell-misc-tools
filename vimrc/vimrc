@@ -58,3 +58,5 @@ call pathogen#infect()
 " syntastic options
 let g:syntastic_check_on_open=1
 
+" clear trailing withespaces
+command CT %s/\ \+$/
