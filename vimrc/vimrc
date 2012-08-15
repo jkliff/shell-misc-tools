@@ -60,3 +60,8 @@ let g:syntastic_check_on_open=1
 
 " clear trailing withespaces
 command CT %s/\ \+$/
+
+" highligh 120th column
+set cc=120
+hi ColorColumn ctermbg=black
+
