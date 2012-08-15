@@ -65,3 +65,5 @@ command CT %s/\ \+$/
 set cc=120
 hi ColorColumn ctermbg=black
 
+" mouse on console
+set mouse=a
