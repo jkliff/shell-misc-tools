@@ -176,3 +176,5 @@ function Fjar {
         jar -tf $i | grep $1 ;
     done
 }
+
+alias mon_fs="watch 'iostat ; df -h'"
