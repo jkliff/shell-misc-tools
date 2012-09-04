@@ -7,6 +7,14 @@
 
 # load oh my zsh
 
+# MacPorts Installer addition on 2011-09-03_at_17:19:17: adding an appropriate PATH variable for use with MacPorts.
+PATH=/opt/local/libexec/gnubin/:$PATH
+PATH=/opt/local/bin:/opt/local/sbin:$PATH
+PATH=/opt/local/lib/postgresql90/bin/:$PATH
+PATH=$HOME/bin:$PATH
+export PATH
+# Finished adapting your PATH environment variable for use with MacPorts.
+
 ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
 plugins=(git svn osx)
 DISABLE_AUTO_UPDATE="true" source $ZSH/oh-my-zsh.sh
@@ -38,14 +46,6 @@ HISTSIZE=10000
 SAVEHIST=1000
 bindkey -e
 # End of lines configured by zsh-newuser-install
-
-# MacPorts Installer addition on 2011-09-03_at_17:19:17: adding an appropriate PATH variable for use with MacPorts.
-PATH=/opt/local/libexec/gnubin/:$PATH
-PATH=/opt/local/bin:/opt/local/sbin:$PATH
-PATH=/opt/local/lib/postgresql90/bin/:$PATH
-PATH=$HOME/bin:$PATH
-export PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
 
 alias ls='ls --color'
 alias l='ls -l'
