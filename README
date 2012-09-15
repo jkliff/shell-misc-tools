@@ -1,1 +1,7 @@
-dot files
+Set of shell utilities (dot files, scripts, etc) of usage on a (at least mine) daily basis.
+
+Here are found
+- timetracker: simple command line activity time logger.
+- monitoring: set of scripts for gathering and visualizing system stats. Probable should not be under shell-misc-tools, but for the time being is.
+- vim: vim configuration/plugins
+- zsh: zsh configuration/plugins

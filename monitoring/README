@@ -1,0 +1,5 @@
+Simple monitoring
+
+A cronjob collects data from a host periodically in a format suitable for quick remote visualization
+
+This is in a _very_ early stage of development, and evolving slowly.

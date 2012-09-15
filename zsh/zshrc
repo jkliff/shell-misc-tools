@@ -65,9 +65,6 @@ if [[ $SYSTEM = 'Darwin' ]] ; then
     alias kill='gkill'
     alias nlp='lsof -Pnl +M -i4'
 
-#    if [[ $HOST = 'hesse' ]] ; then
-#        alias mvim='/Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim'
-#    fi
 else
     alias nlp='netstat -lnp'
 fi

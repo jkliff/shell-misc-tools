@@ -22,16 +22,8 @@ if $COLORTERM == 'gnome-terminal' || $COLORTERM == 'xterm' || $COLORTERM == 'Ter
     set t_Co=256
 endif
 colorscheme mustang
-" colorscheme evening
 
-source ~/.vim/plugin/imaps.vim
-
-"call IMAP ('(', '(<++>)', '')
-"call IMAP ('[', '[<++>]', '')
-"call IMAP ('<', '<<++>>', '')
-"call IMAP ('{', '{<++>}', '')
-"call IMAP ("\'", "\'<++>\'", '')
-"call IMAP ("\"", "\"<++>\"", '')
+"source ~/.vim/plugin/imaps.vim
 
 map <F2> :NERDTreeToggle<CR>
 
