@@ -1,9 +1,11 @@
 # ZSH init script.
-# Dependencies: 
+# Dependencies:
 # - oh-my-zsh (see configuration of $ZSH variable)
 #   git clone git://github.com/robbyrussell/oh-my-zsh.git
 # - zsh-syntax-highlighting ($ZSH_SYNTAX)
 #   git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
+# TODO:
+# - remove option to auto cd to a directory if it was typed
 
 # load oh my zsh
 
@@ -168,7 +170,7 @@ alias which=/usr/bin/which
 # locates class among jars
 # usage: Fjar CLASSNAME PATH
 function Fjar {
-    for i in `find $2 -type f -iname '*jar'` ; do 
+    for i in `find $2 -type f -iname '*jar'` ; do
         echo $i ;
         jar -tf $i | grep $1 ;
     done
