@@ -28,7 +28,7 @@ colorscheme mustang
 map <F2> :NERDTreeToggle<CR>
 
 set hlsearch
-set list listchars=trail:·,precedes:«,extends:»,tab:▸\  
+set list listchars=trail:·,precedes:«,extends:»,tab:▸\
 
 " trying to make vim work properly in macos
 set nocompatible
@@ -54,7 +54,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'passive_filetypes': ['java'] }
 
 " clear trailing withespaces
-command CT %s/\ \+$/
+command CT %s/\ \+$//ge|%s/\t/    /gce
 
 " highligh 120th column
 set cc=120
