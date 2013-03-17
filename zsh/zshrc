@@ -93,7 +93,7 @@ case $HOST in
     bataille)
         hostcolor=yellow
         ;;
-    morgenthau)
+    junklab*)
         hostcolor=green
         ;;
     zlws-jj[0-9])
