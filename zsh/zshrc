@@ -78,6 +78,8 @@ if [[ $HOST = 'hesse' ]] ; then
     alias zmvn='mvn -s ~/.m2/zsettings.xml'
 fi
 
+alias makepasswd='makepasswd --minchars=12 --maxchars=20 --count=6'
+
 autoload colors
 colors
 
