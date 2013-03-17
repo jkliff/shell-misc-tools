@@ -85,7 +85,7 @@ colors
 
 case $HOST in
     hesse)
-        hostcolor=blue
+        hostcolor=061
         ;;
     dresden)
         hostcolor=red
@@ -94,7 +94,7 @@ case $HOST in
         hostcolor=yellow
         ;;
     junklab*)
-        hostcolor=green
+        hostcolor=030
         ;;
     zlws-jj[0-9])
         hostcolor=magenta
@@ -134,7 +134,7 @@ if [[ $EUID -eq 0 ]] ; then
 fi
 setopt promptSubst
 function precmd () {
-    PS_USER_PART="%{$fg[$usercolor]%}%n%{$reset_color%}"
+    PS_USER_PART="%{%F{$usercolor}%}%n%{$reset_color%}"
     if [[ $highlight -eq 1 ]] ; then
         PS_USER_PART="%U$PS_USER_PART"
     fi
@@ -150,7 +150,7 @@ function precmd () {
         fi
     fi
 
-    PROMPT="$PS_USER_PART@%{$fg[$hostcolor]%}%m%{$reset_color%}:%j:%3d/ $REPO_CUSTOM_STATUS%T%# "
+    PROMPT="$PS_USER_PART@%{%F{$hostcolor}%}%m%{$reset_color%}:%j:%3d/ $REPO_CUSTOM_STATUS%T%# "
     export PROMPT
 }
 RPROMPT="%(?..%{$bg[red]$fg_bold[white]%}:( (%?%)%{$reset_color%} )"
