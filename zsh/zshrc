@@ -79,6 +79,7 @@ if [[ $HOST = 'hesse' ]] ; then
 fi
 
 alias makepasswd='makepasswd --minchars=12 --maxchars=20 --count=6'
+########################################################################################
 
 autoload colors
 colors
@@ -193,3 +194,8 @@ case "$TERM" in
     directory_prompt="%{$fg[$directory_color]%}%~%{$reset_color%} "
   ;;
 esac
+
+if [[ -e ~/.zshrc.local ]] ; then
+    source ~/.zshrc.local
+fi
+
