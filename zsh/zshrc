@@ -56,6 +56,7 @@ alias lS='ls -lS'
 alias lt='ls -lt'
 alias grep='grep --color'
 alias irgrep='grep -irn --exclude-dir=.svn --exclude-dir=.git'
+alias psgrep='ps aux | grep -i '
 
 alias diff='colordiff'
 # support colored less
