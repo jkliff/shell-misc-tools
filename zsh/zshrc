@@ -41,6 +41,7 @@ compinit
 unsetopt share_history
 unsetopt correct_all
 unsetopt autopushd
+unsetopt autocd
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
