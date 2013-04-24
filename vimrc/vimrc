@@ -8,7 +8,6 @@ set guifont=Bitstream\ Vera\ Sans\ Mono\ 8
 set cursorline
 
 filetype plugin on
-
 syntax enable
 
 if has ('gui_running')
@@ -40,6 +39,8 @@ map <Leader>b :MiniBufExplorer<cr>
 
 " syntax hightlight configurations:
 au BufRead,BufNewFile *.sql_diff set filetype=sql
+" treat jinjai2 templates (as html)
+au BufRead,BufNewFile *.jtml set filetype=html
 
 let Tlist_Ctags_Cmd = "/usr/bin/ctags"
 let Tlist_WinWidth = 50
@@ -47,8 +48,10 @@ map <F4> :TlistToggle<cr>
 
 " autoload pathogen
 call pathogen#infect()
+
 " syntastic options
 let g:syntastic_check_on_open=1
+" avoid syntastic checks for java files (too heavy)
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],
                            \ 'passive_filetypes': ['java'] }
