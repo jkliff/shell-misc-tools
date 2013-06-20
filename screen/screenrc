@@ -9,6 +9,6 @@ vbell on
 autodetach on
 
 hardstatus alwayslastline
-hardstatus string '%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR} ?(%{W}%n*%f%t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= ?%{g}][%{Y}%l%{g}] %{=b C}[ %m/%d %c%]%{W}'
+hardstatus string '%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR} ?(%{W}%n*%f%t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= ?%{g}][%{Y}%l%{g}] %{=b C}[ %d.%m %c%]%{W}'
 
 term screen-256color
