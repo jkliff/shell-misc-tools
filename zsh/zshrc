@@ -102,6 +102,9 @@ case $HOST in
     zlws-jj[0-9])
         hostcolor=magenta
         ;;
+    outpost.h7r)
+        hostcolor=096
+        ;;
     *)
         hostcolor=gray
         ;;
