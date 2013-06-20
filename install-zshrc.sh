@@ -17,5 +17,8 @@ else
     git clone git://github.com/robbyrussell/oh-my-zsh.git
 fi
 
+# create local configuration
+touch ~/.zshrc.local
+
 echo "installed. to complete run:"
 echo "$ source ~/.zshrc"
