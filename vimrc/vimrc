@@ -56,6 +56,9 @@ let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],
                            \ 'passive_filetypes': ['java'] }
 
+" pyflake options (automatic with F7)
+autocmd BufWritePost *.py call Flake8()
+
 " clear trailing withespaces
 command CT %s/\ \+$//ge|%s/\t/    /gce
 

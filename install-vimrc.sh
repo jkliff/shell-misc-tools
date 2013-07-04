@@ -23,13 +23,22 @@ $CURL ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/mas
 
 pushd .
 cd ~/.vim/bundle
-if [[ ! -d syntastic ]] ; then
-    git clone https://github.com/scrooloose/syntastic.git
-else
-    pwd
-    cd syntastic
-    git pull
-fi
+
+BUNDLES="https://github.com/scrooloose/syntastic.git https://github.com/nvie/vim-flake8.git"
+
+for i in $BUNDLES ; do
+    B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
+
+    if [[ ! -d $B ]] ; then
+        git clone $i
+    else
+        cd $B
+        echo Updating $B
+        git pull
+    fi
+
+done
+
 popd
 
 echo 'Installing vimrc'

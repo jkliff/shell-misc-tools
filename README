@@ -7,3 +7,6 @@ Here are found
 - zsh: zsh configuration/plugins
 - screenrc
 - some scripts
+
+Dependencies:
+- Flake8 (python check)
