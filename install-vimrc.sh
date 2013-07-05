@@ -35,6 +35,7 @@ for i in $BUNDLES ; do
         cd $B
         echo Updating $B
         git pull
+        cd -
     fi
 
 done
