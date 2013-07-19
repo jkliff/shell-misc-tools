@@ -2,9 +2,9 @@
 
 """simple bulk image resizer (I use this a lot when trying to send someone pictures that are in too high resolution).
 
-Dependencies: 
-dialog 
-(macos: port install dialog)
+Dependencies:
+dialog
+(macos: port install dialog or brew install dialog)
 
 TODO: allow not to delete all images after convertion in case of --zip
 TODO: send per email the zip
@@ -50,7 +50,7 @@ def prompt_user_for_imgs (path):
 
     o = [os.path.join (path, f) for f in os.listdir (path) if f not in IGNORE_FILES]
     for p in o:
-        cmd.extend (('%s' % p, '', '')) 
+        cmd.extend (('%s' % p, '', ''))
 
     print cmd
     p = Popen (cmd, stdout=PIPE, stderr=PIPE)
@@ -123,5 +123,5 @@ def main ():
     if args.zip:
         package_images (args.target, generated_files)
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     main()
