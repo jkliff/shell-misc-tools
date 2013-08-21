@@ -184,6 +184,10 @@ function Fjar {
     done
 }
 
+function TailGrep () {
+    tail -f $2 | grep $1
+}
+alias tgrep=TailGrep
 alias mon_fs="watch 'iostat ; df -h'"
 
 # When using screen, inform the current status of this terminal
