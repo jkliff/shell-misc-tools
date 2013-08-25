@@ -6,6 +6,7 @@ Here are found
 - vim: vim configuration/plugins
 - zsh: zsh configuration/plugins
 - screenrc
+- template touch: create new file based on template
 - some scripts
 
 Dependencies:

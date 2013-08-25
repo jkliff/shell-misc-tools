@@ -1,19 +1,21 @@
 #!/bin/bash
 
 BIN=$HOME/bin
-if [[ ! -e $BIN ]] ; then
-    mkdir $BIN
-fi
+BACKUP=$BIN/.backup
 
-INCLUDE="timetracker/tt.py misc/bulk_image_convert.py"
+[[ -e $BIN ]] || mkdir $BIN
+[[ -e $BACKUP ]] || mkdir $BACKUP
+
+INCLUDE="timetracker/tt.py misc/bulk_image_convert.py template_touch/tpltouch"
 
 d=$(date +%s)
+
 for x in $INCLUDE ; do
     y=$(basename $x)
     if [[ -e $BIN/$y ]] ; then
-        b=$BIN/.$y-$d
+        b=$BACKUP/$y-$d
         echo "Saving backup of existing $x to $b"
-        cp $BIN/$y $b
+        cp -v $BIN/$y $b
     fi
     cp -v $x $BIN
 done
