@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # filetype python
 
+import os
 import os.path
 import shutil
 import sys
@@ -17,7 +18,9 @@ def main(args):
         usage ()
         return -2
 
-    verbose = len (args) > 3 and args [3] == '-v'
+    #FIXME do proper parameter parsing
+    verbose = len (args) > 3 and '-v' in args
+    edit_after = len (args) > 3 and '-e' in args
 
     template_name = args[1]
     target_name = args[2]
@@ -41,6 +44,9 @@ def main(args):
         print 'From template %s create %s' % (template_name, target_name)
 
     shutil.copyfile (template, target_name)
+
+    if os.getenv ('EDITOR') is not None:
+        os.system ('%s "%s"' % (os.getenv ('EDITOR'), target_name))
 
     return 0
 
