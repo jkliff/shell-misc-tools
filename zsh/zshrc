@@ -163,6 +163,7 @@ RPROMPT="%(?..%{$bg[red]$fg_bold[white]%}:( (%?%)%{$reset_color%} )"
 ###############################################################################
 
 export SVN_EDITOR=vim
+export EDITOR=vim
 
 source $ZSH_SYNTAX/zsh-syntax-highlighting.zsh
 
