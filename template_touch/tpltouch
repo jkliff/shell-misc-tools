@@ -26,7 +26,7 @@ def main(args):
     target_name = args[2]
 
     if os.path.exists (target_name):
-        perr ('target file %s already exists. aborting')
+        perr ('target file %s already exists. aborting' % target_name)
         return -3
 
     template_dir = os.path.expanduser ('~/.tpltouch/templates')
@@ -45,7 +45,10 @@ def main(args):
 
     shutil.copyfile (template, target_name)
 
-    if os.getenv ('EDITOR') is not None:
+    if edit_after:
+        if os.getenv ('EDITOR') is None:
+            print '$EDITOR is not set'
+            return -1
         os.system ('%s "%s"' % (os.getenv ('EDITOR'), target_name))
 
     return 0
