@@ -15,6 +15,9 @@ PATH=$HOME/bin:$PATH
 export PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
+# for sanity, use case sensitive tab-completion
+CASE_SENSITIVE="true"
+
 ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
 plugins=(git svn osx)
 DISABLE_AUTO_UPDATE="true" source $ZSH/oh-my-zsh.sh
