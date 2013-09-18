@@ -11,3 +11,4 @@ Here are found
 
 Dependencies:
 - Flake8 (python check)
+- ctags
