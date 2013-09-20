@@ -1,7 +1,6 @@
 # Don't display the copyright page
 startup_message off
 
-
 # no annoying audible bell, please
 vbell on
 
@@ -9,7 +8,7 @@ vbell on
 autodetach on
 
 hardstatus alwayslastline
-hardstatus string '%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR} ?(%{W}%n*%f%t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= ?%{g}][%{Y}%l%{g}] %{=b C}[ %m%d %c %]%{W}'
+hardstatus string '%{gk}[%{G}%H%{g}][%{wk}%?%-Lw%?%{=b kR}%n*%f%t%?(%u)%?%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}]%{=b C}[%m%d %c]%{W}'
 
 # needed for proper coloring with zsh and whatnot
 term screen-256color
