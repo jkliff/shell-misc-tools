@@ -194,6 +194,7 @@ function TailGrep () {
 }
 alias tgrep=TailGrep
 alias mon_fs="watch 'iostat ; df -h'"
+alias json_format='python -mjson.tool'
 
 # When using screen, inform the current status of this terminal
 
