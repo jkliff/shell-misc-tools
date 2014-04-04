@@ -196,6 +196,11 @@ alias tgrep=TailGrep
 alias mon_fs="watch 'iostat ; df -h'"
 alias json_format='python -mjson.tool'
 
+function FindInFiles () {
+    irgrep $1 $2 | sed -e 's/:/ /' | awk '{print $1}' | sort -u
+}
+alias fif=FindInFiles
+
 # When using screen, inform the current status of this terminal
 
 case "$TERM" in
