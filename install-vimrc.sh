@@ -24,7 +24,9 @@ $CURL ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/mas
 pushd .
 cd ~/.vim/bundle
 
-BUNDLES="https://github.com/scrooloose/syntastic.git https://github.com/nvie/vim-flake8.git"
+BUNDLES="https://github.com/scrooloose/syntastic.git \
+    https://github.com/nvie/vim-flake8.git \
+    https://github.com/mattn/emmet-vim.git"
 
 for i in $BUNDLES ; do
     B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
