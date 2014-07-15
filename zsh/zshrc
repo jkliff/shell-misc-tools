@@ -201,6 +201,11 @@ function FindInFiles () {
 }
 alias fif=FindInFiles
 
+# diff for git
+function mgdiff () {
+    git diff $1 | mvim -
+}
+
 # When using screen, inform the current status of this terminal
 
 case "$TERM" in
