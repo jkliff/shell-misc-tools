@@ -29,6 +29,7 @@ nmap <F3> :TagbarToggle<CR>
 
 set hlsearch
 set list listchars=trail:·,precedes:«,extends:»,tab:▸\
+set ruler
 
 " trying to make vim work properly in macos
 set nocompatible
