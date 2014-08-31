@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cp vimrc/vimrc ~/.vimrc
+cp -v vimrc/vimrc ~/.vimrc
 
 if [[ ! -d ~/.vim ]] ; then
     mkdir ~/.vim ;
@@ -27,7 +27,8 @@ cd ~/.vim/bundle
 BUNDLES="https://github.com/scrooloose/syntastic.git \
     https://github.com/nvie/vim-flake8.git \
     https://github.com/mattn/emmet-vim.git \
-    https://github.com/kien/ctrlp.vim.git"
+    https://github.com/kien/ctrlp.vim.git \
+    https://github.com/scrooloose/nerdtree.git"
 
 for i in $BUNDLES ; do
     B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
@@ -45,10 +46,9 @@ done
 
 popd
 
-echo 'Installing vimrc'
-
-cp vimrc/vimrc ~/.vimrc
-cp -R vimrc/vim/* ~/.vim/
+echo 'Installing vimrc plugins (not bundles)'
+mv -v ~/.vim/plugin ~/.vim/plugin.old-`date +%F-%H%M%S`
+cp -Rv vimrc/vim/* ~/.vim/
 
 /usr/bin/which ctags > /dev/null
 [[ $? != "0" ]] && echo "ctags not found. Install for your platform for full features."
