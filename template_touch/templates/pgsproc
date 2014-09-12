@@ -1,0 +1,13 @@
+create or replace SPROCNAME (
+    PARAMS
+) returns setof record as
+$BODY$
+begin
+    SPROCBODY
+end
+$BODY$
+
+language plpgsql
+  volatile
+  security definer
+  cost 100;

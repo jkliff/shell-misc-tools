@@ -6,55 +6,67 @@ import os.path
 import shutil
 import sys
 
+def perr (s):
+    sys.stderr.write ("%s\n" % s)
 
-TEMPLATE_DIR = '~/.tpltouch/templates'
+def usage ():
+    perr ('PROGNAME template_name path')
 
-def perr(s):
-    sys.stderr.write("%s\n" % s)
+def get_template_dir ():
+    template_dir = os.path.expanduser ('~/.tpltouch/templates')
 
-def usage():
-    perr('PROGNAME template_name path')
+    if not os.path.isdir (template_dir):
+        perr ('template directory %s either does not exist or is not a directory' % template_dir)
+        sys.exit (4)
+
+    return template_dir
+
+def list_available_templates ():
+    print 'Available templates:'
+    template_dir = get_template_dir ()
+    print os.listdir (template_dir)
 
 def main(args):
 
-    if len(args) < 3:
-        usage()
+    if len (args) < 3:
+        if len (args) == 2 and '-l' in args:
+            list_available_templates ()
+            return 0
+
+        usage ()
         return -2
 
     #FIXME do proper parameter parsing
-    verbose = len(args) > 3 and '-v' in args
-    edit_after = len(args) > 3 and '-e' in args
+    verbose = len (args) > 3 and '-v' in args
+    edit_after = len (args) > 3 and '-e' in args
 
     template_name = args[1]
     target_name = args[2]
 
-    if os.path.exists(target_name):
-        perr('target file %s already exists. aborting' % target_name)
+    if os.path.exists (target_name):
+        perr ('target file %s already exists. aborting' % target_name)
         return -3
 
-    template_dir = os.path.expanduser(TEMPLATE_DIR)
+    template_dir = get_template_dir ()
+    template = os.path.join (template_dir, template_name)
 
-    if not os.path.isdir(template_dir):
-        perr('template directory %s either does not exist or is not a directory' % template_dir)
-
-    template = os.path.join(template_dir, template_name)
-
-    if not os.path.exists(template):
-        perr('template %s does not exists' % template_name)
+    if not os.path.exists (template):
+        perr ('template %s does not exists' % template_name)
         return -1
 
     if verbose:
         print 'From template %s create %s' % (template_name, target_name)
 
-    shutil.copyfile(template, target_name)
+    shutil.copyfile (template, target_name)
 
     if edit_after:
-        if os.getenv('EDITOR') is None:
+        if os.getenv ('EDITOR') is None:
             print '$EDITOR is not set'
             return -1
-        os.system('%s "%s"' % (os.getenv('EDITOR'), target_name))
+        os.system ('%s "%s"' % (os.getenv ('EDITOR'), target_name))
 
     return 0
 
 if __name__ == '__main__':
+    import sys
     exit(main(sys.argv))
