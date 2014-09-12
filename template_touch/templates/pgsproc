@@ -1,4 +1,4 @@
-create or replace SPROCNAME (
+create or replace function SPROCNAME (
     PARAMS
 ) returns setof record as
 $BODY$
