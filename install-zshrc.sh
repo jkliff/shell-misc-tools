@@ -1,6 +1,15 @@
 #!env bash
-cp zsh/zshrc ~/.zshrc
-cd ~/Desktop/dev-tools
+
+TARGET_GIT_CHECKOUT=${TARGET_GIT_CHECKOUT-~/src}
+
+if [[ ! -d $TARGET_GIT_CHECKOUT ]] ; then
+    echo "TARGET_GIT_CHECKOUT is not defined or does not exist. Tried with $TARGET_GIT_CHECKOUT. Aborting."
+    exit 1
+fi
+
+echo Using $TARGET_GIT_CHECKOUT as git checkout dir
+
+cp -v zsh/zshrc ~/.zshrc
 if [[ -d zsh-syntax-highlighting ]] ; then
     cd zsh-syntax-highlighting ;
     git pull ;
