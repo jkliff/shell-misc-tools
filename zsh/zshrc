@@ -18,7 +18,9 @@ export PATH
 # for sanity, use case sensitive tab-completion
 CASE_SENSITIVE="true"
 
-ZSH=$HOME/Desktop/dev-tools/oh-my-zsh
+ZSH_CONTRIB=~/.zsh-contrib
+
+ZSH=$ZSH_CONTRIB/oh-my-zsh
 plugins=(git svn osx)
 DISABLE_AUTO_UPDATE="true" source $ZSH/oh-my-zsh.sh
 
@@ -115,7 +117,7 @@ case $HOST in
 
 esac
 
-ZSH_SYNTAX=$HOME/Desktop/dev-tools/zsh-syntax-highlighting
+ZSH_SYNTAX=$ZSH_CONTRIB/zsh-syntax-highlighting
 
 # oh-my-zsh stuff
 bindkey ";5C" forward-word
