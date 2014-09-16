@@ -1,4 +1,4 @@
-#!/bin/bash
+#!env bash
 cp zsh/zshrc ~/.zshrc
 cd ~/Desktop/dev-tools
 if [[ -d zsh-syntax-highlighting ]] ; then

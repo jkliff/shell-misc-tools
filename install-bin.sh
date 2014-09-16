@@ -1,4 +1,4 @@
-#!/bin/bash
+#!env bash
 
 BIN=$HOME/bin
 BACKUP=$BIN/.backup

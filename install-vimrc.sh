@@ -1,4 +1,4 @@
-#!/bin/bash
+#!env bash
 
 cp -v vimrc/vimrc ~/.vimrc
 
