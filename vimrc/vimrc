@@ -31,7 +31,8 @@ set hlsearch
 set list listchars=trail:·,precedes:«,extends:»,tab:▸\
 set ruler
 
-" trying to make vim work properly in macos
+"" nocompatible is important to be able to navigate with arrow keys in systems
+" like freebsd and macos
 set nocompatible
 set backspace=indent,eol,start
 
