@@ -6,7 +6,7 @@ BACKUP=$BIN/.backup
 [[ -e $BIN ]] || mkdir $BIN
 [[ -e $BACKUP ]] || mkdir $BACKUP
 
-INCLUDE="timetracker/tt.py misc/bulk_image_convert.py template_touch/tpltouch"
+INCLUDE="timetracker/tt.py misc/bulk_image_convert.py template_touch/tpltouch worklog/wl.py"
 
 d=$(date +%s)
 
