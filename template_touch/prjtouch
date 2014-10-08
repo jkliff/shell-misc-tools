@@ -1,0 +1,8 @@
+#!env bash
+
+BASE_PATH=$1
+RESOURCES="resources,$2"
+
+mkdir -pv $BASE_PATH/src/{main,test}/{$RESOURCES}
+
+touch $BASE_PATH/README
