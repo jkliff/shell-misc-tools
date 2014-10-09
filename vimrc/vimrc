@@ -24,9 +24,6 @@ colorscheme mustang
 
 "source ~/.vim/plugin/imaps.vim
 
-map <F2> :NERDTreeToggle<CR>
-nmap <F3> :TagbarToggle<CR>
-
 set hlsearch
 set list listchars=trail:·,precedes:«,extends:»,tab:▸\
 set ruler
@@ -71,3 +68,8 @@ hi ColorColumn ctermbg=black
 
 " mouse on console
 set mouse=a
+
+map <F2> :NERDTreeToggle<CR>
+nmap <F3> :TagbarToggle<CR>
+nmap <F5> :GitGutterLineHighlightsToggle<CR>
+
