@@ -1,8 +1,21 @@
 #!env bash
 
+SELF=`basename $0`
+
+function usage {
+    echo "Project skeleton creation helper."
+    echo ""
+    echo "Usage: $SELF BASE_PATH RESOURCES"
+    echo "Where     BASE_PATH: directory where skeleton is to be created"
+    echo "          RESOURCES: additional directories to be created. Comma separated"
+    exit 1
+}
+
+[[ $# == 2 ]] || usage;
+
 BASE_PATH=$1
 RESOURCES="resources,$2"
 
-mkdir -pv $BASE_PATH/src/{main,test}/{$RESOURCES}
-
+CMD="mkdir -pv $BASE_PATH/src/{main,test}/{$RESOURCES}"
+eval $CMD
 touch $BASE_PATH/README
