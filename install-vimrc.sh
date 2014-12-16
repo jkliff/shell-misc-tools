@@ -32,7 +32,8 @@ BUNDLES="https://github.com/scrooloose/syntastic.git \
     https://github.com/majutsushi/tagbar \
     https://github.com/airblade/vim-gitgutter.git\
     https://github.com/tfnico/vim-gradle\
-    https://github.com/groenewege/vim-less"
+    https://github.com/groenewege/vim-less\
+    https://github.com/honza/dockerfile.vim"
 
 for i in $BUNDLES ; do
     B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
