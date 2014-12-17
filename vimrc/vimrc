@@ -17,10 +17,12 @@ if has ('gui_running')
     set guioptions-=T  " no toolbar
 endif
 
-if $COLORTERM == 'gnome-terminal' || $COLORTERM == 'xterm' || $COLORTERM == 'Terminal'
+if $COLORTERM == 'gnome-terminal' || $COLORTERM == 'xterm' || $COLORTERM == 'Terminal' || ! has("gui_running")
     set t_Co=256
+    colorscheme gotham256
+else
+    colorscheme gotham
 endif
-colorscheme mustang
 
 "source ~/.vim/plugin/imaps.vim
 
