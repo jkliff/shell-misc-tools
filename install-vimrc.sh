@@ -29,11 +29,14 @@ BUNDLES="https://github.com/scrooloose/syntastic.git \
     https://github.com/mattn/emmet-vim.git \
     https://github.com/kien/ctrlp.vim.git \
     https://github.com/scrooloose/nerdtree.git \
-    https://github.com/majutsushi/tagbar \
-    https://github.com/airblade/vim-gitgutter.git \
-    https://github.com/tfnico/vim-gradle \
-    https://github.com/groenewege/vim-less \
-    git://github.com/tpope/vim-fugitive.git"
+    git://github.com/tpope/vim-fugitive.git \
+    https://github.com/majutsushi/tagbar.git \
+    https://github.com/airblade/vim-gitgutter.git\
+    https://github.com/tfnico/vim-gradle.git \
+    https://github.com/groenewege/vim-less.git \
+    https://github.com/honza/dockerfile.vim.git \
+    https://github.com/derekwyatt/vim-scala.git \
+    https://github.com/plasticboy/vim-markdown.git"
 
 for i in $BUNDLES ; do
     B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
