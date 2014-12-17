@@ -45,8 +45,11 @@ for i in $BUNDLES ; do
         git pull
         cd -
     fi
-
 done
+
+mkdir ~/.vim/tmp
+cd ~/.vim/tmp
+git clone https://github.com/flazz/vim-colorschemes.git HEAD
 
 popd
 
