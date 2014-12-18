@@ -51,9 +51,16 @@ for i in $BUNDLES ; do
     fi
 done
 
-mkdir ~/.vim/tmp
-cd ~/.vim/tmp
-git clone https://github.com/flazz/vim-colorschemes.git HEAD
+#mkdir -v ~/.vim/tmp
+#cd ~/.vim/tmp
+#git clone https://github.com/flazz/vim-colorschemes.git
+
+cd ~/.vim
+if [[ ! -e bundle/colorschemes ]] ; then
+    git clone https://github.com/flazz/vim-colorschemes.git bundle/colorschemes
+else
+    cd bundle/colorschemes ; git pull
+fi
 
 popd
 
@@ -63,3 +70,4 @@ cp -Rv vimrc/vim/* ~/.vim/
 
 /usr/bin/which ctags > /dev/null
 [[ $? != "0" ]] && echo "ctags not found. Install for your platform for full features."
+
