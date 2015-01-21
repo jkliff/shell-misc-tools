@@ -226,3 +226,5 @@ if [[ -e ~/.zshrc.local ]] ; then
     source ~/.zshrc.local
 fi
 
+#development aliases and stuff
+alias mvn-ee='mvn eclipse:eclipse -DdownloadSources=true'
