@@ -228,3 +228,4 @@ fi
 
 #development aliases and stuff
 alias mvn-ee='mvn eclipse:eclipse -DdownloadSources=true'
+alias mvn-dep='mvn dependency:tree'
