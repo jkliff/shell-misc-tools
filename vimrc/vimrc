@@ -61,7 +61,10 @@ let g:syntastic_mode_map = { 'mode': 'active',
 " pyflake options (automatic with F7)
 autocmd BufWritePost *.py call Flake8()
 
+" folding
 set foldmethod=syntax
+" all folds opened automatically
+au BufRead * normal zR
 
 " clear trailing withespaces
 command CT %s/\ \+$//ge|%s/\t/    /gce
