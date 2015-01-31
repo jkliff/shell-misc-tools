@@ -94,25 +94,25 @@ colors
 
 case $HOST in
     hesse)
-        hostcolor=061
+        HOSTCOLOR=061
         ;;
     dresden)
-        hostcolor=red
+        HOSTCOLOR=red
         ;;
     bataille)
-        hostcolor=yellow
+        HOSTCOLOR=yellow
         ;;
-    junklab*)
-        hostcolor=030
+    saramago)
+        HOSTCOLOR=blue
         ;;
     zlws-jj[0-9])
-        hostcolor=magenta
+        HOSTCOLOR=magenta
         ;;
     outpost.h7r)
-        hostcolor=096
+        HOSTCOLOR=096
         ;;
     *)
-        hostcolor=gray
+        HOSTCOLOR=gray
         ;;
 
 esac
@@ -122,7 +122,6 @@ ZSH_SYNTAX=$ZSH_CONTRIB/zsh-syntax-highlighting
 # oh-my-zsh stuff
 bindkey ";5C" forward-word
 bindkey ";5D" backward-word
-
 
 ###############################################################################
 # prompt config
@@ -137,7 +136,7 @@ ZSH_THEME_SVN_PROMPT_SUFFIX=")"
 ZSH_THEME_SVN_PROMPT_DIRTY="%{$fg[red]%} ✘ %{$reset_color%}"
 ZSH_THEME_SVN_PROMPT_CLEAN=" "
 
-usercolor=$hostcolor
+usercolor=$HOSTCOLOR
 highlight=0
 
 if [[ $EUID -eq 0 ]] ; then
@@ -145,6 +144,7 @@ if [[ $EUID -eq 0 ]] ; then
     highlight=1
 fi
 setopt promptSubst
+
 function precmd () {
     PS_USER_PART="%{%F{$usercolor}%}%n%{$reset_color%}"
     if [[ $highlight -eq 1 ]] ; then
@@ -162,10 +162,10 @@ function precmd () {
         fi
     fi
 
-    PROMPT="$PS_USER_PART@%{%F{$hostcolor}%}%m%{$reset_color%}:%j:%3d/ $REPO_CUSTOM_STATUS%T%# "
+    PROMPT="$PS_USER_PART@%{%F{$HOSTCOLOR}%}%m%{$reset_color%}:%j:%3d/ $REPO_CUSTOM_STATUS%T%# "
     export PROMPT
 }
-RPROMPT="%(?..%{$bg[red]$fg_bold[white]%}:( (%?%)%{$reset_color%} )"
+RPROMPT="%(?..%{$bg[red]$fg_bold[white]%}%?%{$reset_color%} )"
 ###############################################################################
 
 export SVN_EDITOR=vim
