@@ -40,19 +40,25 @@ BUNDLES="https://github.com/scrooloose/syntastic.git \
     https://github.com/groenewege/vim-less.git \
     https://github.com/honza/dockerfile.vim.git \
     https://github.com/derekwyatt/vim-scala.git \
-    https://github.com/plasticboy/vim-markdown.git"
+    https://github.com/plasticboy/vim-markdown.git \
+    git://github.com/digitaltoad/vim-jade.git"
 
-for i in $BUNDLES ; do
-    B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
-
-    if [[ ! -d $B ]] ; then
+function update_project {
+    if [[ ! -d $1 ]] ; then
         git clone $i
     else
-        cd $B
-        echo Updating $B
+        cd $1
+        echo Updating $1
         git pull
         cd -
     fi
+}
+
+echo Updating bundles...
+for i in $BUNDLES ; do
+    B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
+    echo .. $B
+    update_project $B >> $LOGGER
 done
 
 #mkdir -v ~/.vim/tmp
