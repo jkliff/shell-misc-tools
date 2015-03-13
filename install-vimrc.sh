@@ -1,6 +1,10 @@
 #!env bash
 
-cp -v vimrc/vimrc ~/.vimrc
+set -e
+LOGGER=~/install-vim.log
+
+echo Updating vimrc
+cp -v vimrc/vimrc ~/.vimrc >> $LOGGER
 
 if [[ ! -d ~/.vim ]] ; then
     mkdir ~/.vim ;
@@ -19,7 +23,7 @@ else
     CURL="$CURL -O"
 fi
 
-$CURL ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+$CURL ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim >> $LOGGER
 
 pushd .
 cd ~/.vim/bundle
@@ -66,7 +70,7 @@ popd
 
 echo 'Installing vimrc plugins (not bundles)'
 mv -v ~/.vim/plugin ~/.vim/plugin.old-`date +%F-%H%M%S`
-cp -Rv vimrc/vim/* ~/.vim/
+cp -Rv vimrc/vim/* ~/.vim/ >> $LOGGER
 
 /usr/bin/which ctags > /dev/null
 [[ $? != "0" ]] && echo "ctags not found. Install for your platform for full features."
