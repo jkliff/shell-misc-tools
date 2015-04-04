@@ -53,7 +53,7 @@ BUNDLES="https://github.com/scrooloose/syntastic.git \
     https://github.com/honza/dockerfile.vim.git \
     https://github.com/derekwyatt/vim-scala.git \
     https://github.com/plasticboy/vim-markdown.git \
-    https://github.com/Raimondi/delimitMate.git \
+    https://github.com/guns/vim-sexp.git \
     git://github.com/digitaltoad/vim-jade.git \
     git://github.com/tpope/vim-leiningen.git
     git://github.com/tpope/vim-projectionist.git
@@ -66,7 +66,6 @@ BUNDLES="https://github.com/scrooloose/syntastic.git \
 function update_project_if_needed {
     if [[ ! -d $1 ]] ; then
         echo -n " fetching..."
-        exit
         git clone $i >> $LOGGER
         echo " ok."
     else
