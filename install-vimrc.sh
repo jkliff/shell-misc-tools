@@ -54,27 +54,40 @@ BUNDLES="https://github.com/scrooloose/syntastic.git \
     https://github.com/derekwyatt/vim-scala.git \
     https://github.com/plasticboy/vim-markdown.git \
     https://github.com/Raimondi/delimitMate.git \
-    git://github.com/digitaltoad/vim-jade.git"
+    git://github.com/digitaltoad/vim-jade.git \
+    git://github.com/tpope/vim-leiningen.git
+    git://github.com/tpope/vim-projectionist.git
+    git://github.com/tpope/vim-dispatch.git
+    git://github.com/tpope/vim-fireplace.git"
 
 #for i in $BUNDLES ; do
 #    B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
 
-function update_project {
+function update_project_if_needed {
     if [[ ! -d $1 ]] ; then
-        git clone $i
+        echo -n " fetching..."
+        exit
+        git clone $i >> $LOGGER
+        echo " ok."
     else
         cd $1
-        echo Updating $1
-        git pull
-        cd -
+        git remote update >> $LOGGER
+        [[ $(git rev-list HEAD...origin/master --count) != 0 ]] && update_project >> $LOGGER
+        echo " ok."
+        cd ..
     fi
+}
+
+function update_project {
+    echo -n " updating... $1"
+    git pull >> $LOGGER
 }
 
 echo Updating bundles...
 for i in $BUNDLES ; do
     B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
-    echo .. $B
-    update_project $B >> $LOGGER
+    echo -n ".. $B"
+    update_project_if_needed $B #>> $LOGGER
 done
 
 #mkdir -v ~/.vim/tmp
@@ -91,8 +104,8 @@ fi
 popd
 
 echo 'Installing/updating vimrc plugins (not bundles)'
-if [[ "$@" == "--backup" ]] ; then 
-    echo "Backing old plugins up" 
+if [[ "$@" == "--backup" ]] ; then
+    echo "Backing old plugins up"
     mv -v ~/.vim/plugin ~/.vim/plugin.old-`date +%F-%H%M%S` >> $LOGGER
 fi
 cp -Rvu vimrc/vim/* ~/.vim/ >> $LOGGER
