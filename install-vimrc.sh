@@ -3,12 +3,68 @@
 set -e
 LOGGER=~/install-vim.log
 
+BUNDLES="https://github.com/scrooloose/syntastic.git \
+    git://github.com/nvie/vim-flake8.git \
+    git://github.com/kien/ctrlp.vim.git \
+    git://github.com/scrooloose/nerdtree.git \
+    git://github.com/tpope/vim-fugitive.git \
+    git://github.com/majutsushi/tagbar.git \
+    git://github.com/airblade/vim-gitgutter.git \
+    git://github.com/tfnico/vim-gradle.git \
+    git://github.com/groenewege/vim-less.git \
+    git://github.com/honza/dockerfile.vim.git \
+    git://github.com/derekwyatt/vim-scala.git \
+    git://github.com/plasticboy/vim-markdown.git \
+    git://github.com/guns/vim-sexp.git \
+    git://github.com/digitaltoad/vim-jade.git \
+    git://github.com/tpope/vim-leiningen.git \
+    git://github.com/tpope/vim-projectionist.git \
+    git://github.com/tpope/vim-dispatch.git \
+    git://github.com/tpope/vim-fireplace.git \
+    git://github.com/bling/vim-airline.git \
+    git://github.com/tpope/vim-surround.git \
+    git://github.com/venantius/vim-eastwood.git \
+    git://github.com/flazz/vim-colorschemes.git"
+
+
 function usage {
     echo "Installer for vimrc and bundles"
     echo "Overwrite \$BUNDLE_DIR to set director to other than ~/.vim/bundle"
     echo "Options:"
     echo "    --debug"
     echo "    --backup"
+}
+
+
+function update_project_if_needed {
+    if [[ ! -d $1 ]] ; then
+        echo -n "fetching... "
+        git clone $i >> $LOGGER
+        echo ok.
+    else
+        cd $1
+        git remote update >> $LOGGER
+        [[ $(git rev-list HEAD...origin/master --count) != 0 ]] && update_project >> $LOGGER
+        echo ok.
+        cd ..
+    fi
+}
+
+function update_project {
+    echo -n "updating... $1 "
+    git pull >> $LOGGER
+}
+
+function fix_gotham256_airline {
+
+    # little hack to make sure airline works with gotham256 theme
+    AIRLINE=~/.vim/bundle/vim-airline
+    COLORSCHEMES=~/.vim/bundle/colorschemes
+
+    [[ ! -e $AIRLINE/autoload/airline/themes/gotham256.vim ]] \
+        && ln -vs $COLORSCHEMES/colors/gotham256.vim $AIRLINE/autoload/airline/themes/gotham256.vim >> $LOGGER
+    [[ ! -e $AIRLINE/autoload/airline/themes/gotham.vim ]] \
+        && ln -vs $COLORSCHEMES/colors/gotham.vim $AIRLINE/autoload/airline/themes/gotham.vim >> $LOGGER
 }
 
 
@@ -40,49 +96,8 @@ $CURL ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/mas
 pushd .
 cd $BUNDLE_DIR
 
-BUNDLES="https://github.com/scrooloose/syntastic.git \
-    https://github.com/nvie/vim-flake8.git \
-    https://github.com/mattn/emmet-vim.git \
-    https://github.com/kien/ctrlp.vim.git \
-    https://github.com/scrooloose/nerdtree.git \
-    git://github.com/tpope/vim-fugitive.git \
-    https://github.com/majutsushi/tagbar.git \
-    https://github.com/airblade/vim-gitgutter.git\
-    https://github.com/tfnico/vim-gradle.git \
-    https://github.com/groenewege/vim-less.git \
-    https://github.com/honza/dockerfile.vim.git \
-    https://github.com/derekwyatt/vim-scala.git \
-    https://github.com/plasticboy/vim-markdown.git \
-    https://github.com/guns/vim-sexp.git \
-    git://github.com/digitaltoad/vim-jade.git \
-    git://github.com/tpope/vim-leiningen.git
-    git://github.com/tpope/vim-projectionist.git
-    git://github.com/tpope/vim-dispatch.git
-    git://github.com/tpope/vim-fireplace.git\
-    https://github.com/bling/vim-airline"
-
 #for i in $BUNDLES ; do
 #    B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
-
-function update_project_if_needed {
-    if [[ ! -d $1 ]] ; then
-        echo -n "fetching... "
-        git clone $i >> $LOGGER
-        echo ok.
-    else
-        cd $1
-        git remote update >> $LOGGER
-        [[ $(git rev-list HEAD...origin/master --count) != 0 ]] && update_project >> $LOGGER
-        echo ok.
-        cd ..
-    fi
-}
-
-function update_project {
-    echo -n "updating... $1 "
-    git pull >> $LOGGER
-}
-
 echo Updating bundles...
 for i in $BUNDLES ; do
     B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
@@ -90,16 +105,7 @@ for i in $BUNDLES ; do
     update_project_if_needed $B #>> $LOGGER
 done
 
-#mkdir -v ~/.vim/tmp
-#cd ~/.vim/tmp
-#git clone https://github.com/flazz/vim-colorschemes.git
-
-cd ~/.vim
-if [[ ! -e bundle/colorschemes ]] ; then
-    git clone https://github.com/flazz/vim-colorschemes.git bundle/colorschemes
-else
-    cd bundle/colorschemes ; git pull
-fi
+fix_gotham256_airline
 
 popd
 

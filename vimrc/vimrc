@@ -1,3 +1,6 @@
+" autoload pathogen
+call pathogen#infect()
+
 scriptencoding utf-8
 set encoding=utf-8
 
@@ -49,9 +52,6 @@ au BufRead,BufNewFile *.jtml set filetype=html
 let Tlist_Ctags_Cmd = "/usr/bin/ctags"
 let Tlist_WinWidth = 50
 map <F4> :TlistToggle<cr>
-
-" autoload pathogen
-call pathogen#infect()
 
 " syntastic options
 let g:syntastic_check_on_open=1
