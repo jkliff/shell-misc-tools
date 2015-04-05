@@ -58,34 +58,35 @@ BUNDLES="https://github.com/scrooloose/syntastic.git \
     git://github.com/tpope/vim-leiningen.git
     git://github.com/tpope/vim-projectionist.git
     git://github.com/tpope/vim-dispatch.git
-    git://github.com/tpope/vim-fireplace.git"
+    git://github.com/tpope/vim-fireplace.git\
+    https://github.com/bling/vim-airline"
 
 #for i in $BUNDLES ; do
 #    B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
 
 function update_project_if_needed {
     if [[ ! -d $1 ]] ; then
-        echo -n " fetching..."
+        echo -n "fetching... "
         git clone $i >> $LOGGER
-        echo " ok."
+        echo ok.
     else
         cd $1
         git remote update >> $LOGGER
         [[ $(git rev-list HEAD...origin/master --count) != 0 ]] && update_project >> $LOGGER
-        echo " ok."
+        echo ok.
         cd ..
     fi
 }
 
 function update_project {
-    echo -n " updating... $1"
+    echo -n "updating... $1 "
     git pull >> $LOGGER
 }
 
 echo Updating bundles...
 for i in $BUNDLES ; do
     B=$(echo $i | sed -e 's/^.*\/\(.*\).git$/\1/')
-    echo -n ".. $B"
+    echo -n "... $B "
     update_project_if_needed $B #>> $LOGGER
 done
 

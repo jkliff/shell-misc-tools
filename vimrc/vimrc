@@ -20,8 +20,10 @@ endif
 if $COLORTERM == 'gnome-terminal' || $COLORTERM == 'xterm' || $COLORTERM == 'Terminal' || ! has("gui_running")
     set t_Co=256
     colorscheme gotham256
+    AirlineTheme gotham256
 else
     colorscheme gotham
+    AirlineTheme gotham
 endif
 
 "source ~/.vim/plugin/imaps.vim
