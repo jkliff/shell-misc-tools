@@ -3,27 +3,27 @@
 set -e
 LOGGER=~/install-vim.log
 
-BUNDLES="https://github.com/scrooloose/syntastic.git \
-    git://github.com/nvie/vim-flake8.git \
-    git://github.com/kien/ctrlp.vim.git \
-    git://github.com/scrooloose/nerdtree.git \
-    git://github.com/tpope/vim-fugitive.git \
-    git://github.com/majutsushi/tagbar.git \
-    git://github.com/airblade/vim-gitgutter.git \
-    git://github.com/tfnico/vim-gradle.git \
-    git://github.com/groenewege/vim-less.git \
-    git://github.com/honza/dockerfile.vim.git \
-    git://github.com/derekwyatt/vim-scala.git \
-    git://github.com/plasticboy/vim-markdown.git \
-    git://github.com/guns/vim-sexp.git \
-    git://github.com/digitaltoad/vim-jade.git \
-    git://github.com/tpope/vim-leiningen.git \
-    git://github.com/tpope/vim-projectionist.git \
-    git://github.com/tpope/vim-dispatch.git \
-    git://github.com/tpope/vim-fireplace.git \
-    git://github.com/bling/vim-airline.git \
-    git://github.com/tpope/vim-surround.git \
-    git://github.com/venantius/vim-eastwood.git \
+BUNDLES="https://github.com/scrooloose/syntastic.git    \
+    git://github.com/nvie/vim-flake8.git                \
+    git://github.com/kien/ctrlp.vim.git                 \
+    git://github.com/scrooloose/nerdtree.git            \
+    git://github.com/tpope/vim-fugitive.git             \
+    git://github.com/majutsushi/tagbar.git              \
+    git://github.com/airblade/vim-gitgutter.git         \
+    git://github.com/tfnico/vim-gradle.git              \
+    git://github.com/groenewege/vim-less.git            \
+    git://github.com/honza/dockerfile.vim.git           \
+    git://github.com/derekwyatt/vim-scala.git           \
+    git://github.com/plasticboy/vim-markdown.git        \
+    git://github.com/guns/vim-sexp.git                  \
+    git://github.com/digitaltoad/vim-jade.git           \
+    git://github.com/tpope/vim-leiningen.git            \
+    git://github.com/tpope/vim-projectionist.git        \
+    git://github.com/tpope/vim-dispatch.git             \
+    git://github.com/tpope/vim-fireplace.git            \
+    git://github.com/bling/vim-airline.git              \
+    git://github.com/tpope/vim-surround.git             \
+    git://github.com/venantius/vim-eastwood.git         \
     git://github.com/flazz/vim-colorschemes.git"
 
 
@@ -34,7 +34,6 @@ function usage {
     echo "    --debug"
     echo "    --backup"
 }
-
 
 function update_project_if_needed {
     if [[ ! -d $1 ]] ; then
@@ -61,10 +60,16 @@ function fix_gotham256_airline {
     AIRLINE=~/.vim/bundle/vim-airline
     COLORSCHEMES=~/.vim/bundle/colorschemes
 
-    [[ ! -e $AIRLINE/autoload/airline/themes/gotham256.vim ]] \
-        && ln -vs $COLORSCHEMES/colors/gotham256.vim $AIRLINE/autoload/airline/themes/gotham256.vim >> $LOGGER
-    [[ ! -e $AIRLINE/autoload/airline/themes/gotham.vim ]] \
-        && ln -vs $COLORSCHEMES/colors/gotham.vim $AIRLINE/autoload/airline/themes/gotham.vim >> $LOGGER
+    [[ ! -e $AIRLINE/autoload/airline/themes/gotham256.vim ]] && \
+        ln -vs $COLORSCHEMES/colors/gotham256.vim $AIRLINE/autoload/airline/themes/gotham256.vim >> $LOGGER
+    [[ ! -e $AIRLINE/autoload/airline/themes/gotham.vim ]] && \
+        ln -vs $COLORSCHEMES/colors/gotham.vim $AIRLINE/autoload/airline/themes/gotham.vim >> $LOGGER
+}
+
+check_which () {
+    /usr/bin/which "$1" > /dev/null
+    [[ $? != "0" ]] && \
+        echo "$1 not found. Install for your platform for full features."
 }
 
 
@@ -116,6 +121,5 @@ if [[ "$@" == "--backup" ]] ; then
 fi
 cp -Rvu vimrc/vim/* ~/.vim/ >> $LOGGER
 
-/usr/bin/which ctags > /dev/null
-[[ $? != "0" ]] && echo "ctags not found. Install for your platform for full features."
+check_which ctags
 
