@@ -6,6 +6,9 @@ import os
 import os.path
 import shutil
 import sys
+import tempfile
+
+from plumbum import local, FG
 
 def perr(s):
     sys.stderr.write("%s\n" % s)
@@ -26,11 +29,16 @@ def list_available_templates():
     print os.listdir(template_dir)
 
 
-def paste_from_local_file(template_name, target_name, edit_after=False, verbose=False):
-
+def check_file_free(target_name):
     if os.path.exists(target_name):
-        perr('target file %s already exists. aborting' % target_name)
+        perr('Target %s already exists. Aborting' % target_name)
         return -3
+
+
+def paste_from_local_file(template_name, target_name, edit_after=False, verbose=False):
+    r = check_file_free(target_name)
+    if r:
+        return r
 
     template_dir = get_template_dir()
     template = os.path.join(template_dir, template_name)
@@ -49,6 +57,22 @@ def paste_from_local_file(template_name, target_name, edit_after=False, verbose=
             print '$EDITOR is not set'
             return -1
         os.system('%s "%s"' % (os.getenv('EDITOR'), target_name))
+
+    return 0
+
+
+def paste_from_git(repository_name, target_dir, verbose=False):
+    r = check_file_free(target_dir)
+    if r:
+        return r
+
+    gh_repo = ('git://github.com/%s' % repository_name).encode('utf-8')
+    git = local['git']
+
+    # as we want to remove .git from the pasted directory, it's simple to write it at some place (that will be cleared
+    # on its own) and simply remove the symlink
+    git['clone', '--separate-git-dir=%s/git' % tempfile.mkdtemp(), gh_repo, target_dir] & FG
+    os.remove(os.path.join(target_dir, '.git'))
 
     return 0
 
@@ -81,7 +105,12 @@ def main(args):
         list_available_templates()
         return -2
 
-    return paste_from_local_file(ctx.source, ctx.target, edit_after=False, verbose=ctx.verbose)
+    if ctx.type == 'git':
+        return paste_from_git(ctx.source, ctx.target, verbose=ctx.verbose)
+    elif ctx.type == 'local':
+        return paste_from_local_file(ctx.source, ctx.target, edit_after=False, verbose=ctx.verbose)
+    else:
+        return -4
 
 if __name__ == '__main__':
     exit(main(sys.argv[1:]))
