@@ -27,18 +27,19 @@ def list_available_templates():
     print 'Available templates:'
     template_dir = get_template_dir()
     print os.listdir(template_dir)
+    return 0
 
 
 def check_file_free(target_name):
-    if os.path.exists(target_name):
+    exists = os.path.exists(target_name)
+    if exists:
         perr('Target %s already exists. Aborting' % target_name)
-        return -3
+    return not exists
 
 
 def paste_from_local_file(template_name, target_name, edit_after=False, verbose=False):
-    r = check_file_free(target_name)
-    if r:
-        return r
+
+    assert check_file_free(target_name)
 
     template_dir = get_template_dir()
     template = os.path.join(template_dir, template_name)
@@ -62,9 +63,8 @@ def paste_from_local_file(template_name, target_name, edit_after=False, verbose=
 
 
 def paste_from_git(repository_name, target_dir, verbose=False):
-    r = check_file_free(target_dir)
-    if r:
-        return r
+
+    assert check_file_free(target_dir)
 
     gh_repo = ('git://github.com/%s' % repository_name).encode('utf-8')
     git = local['git']
