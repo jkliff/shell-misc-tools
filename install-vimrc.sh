@@ -96,7 +96,7 @@ else
     CURL="$CURL -O"
 fi
 
-$CURL ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim >> $LOGGER
+$CURL ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 
 pushd .
 cd $BUNDLE_DIR
