@@ -87,6 +87,7 @@ if [[ $HOST = 'hesse' ]] ; then
 fi
 
 alias makepasswd='makepasswd --minchars=12 --maxchars=20 --count=6'
+alias ccat='pygmentize -g'
 ########################################################################################
 
 autoload colors
