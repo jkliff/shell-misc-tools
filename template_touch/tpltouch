@@ -37,7 +37,7 @@ def check_file_free(target_name):
     return not exists
 
 
-def paste_from_local_file(template_name, target_name, edit_after=False, verbose=False):
+def paste_from_local_file(template_name, target_name, edit_after=False, verbose=False, create_parent_dirs=False):
 
     assert check_file_free(target_name)
 
@@ -50,6 +50,13 @@ def paste_from_local_file(template_name, target_name, edit_after=False, verbose=
 
     if verbose:
         print 'From template %s create %s' % (template_name, target_name)
+
+    if create_parent_dirs:
+        parent = os.path.split(target_name)[0]
+        if not os.path.exists(parent):
+            if verbose:
+                print 'Creating parent directories to '
+        os.makedirs(parent)
 
     shutil.copyfile(template, target_name)
 
@@ -89,6 +96,7 @@ def parse_arguments(args):
     # FIXME: don't  depend on -l to add the arguments (how to do it with argparse?)
     if not normal_mode:
         parser.add_argument('-t', '--type', choices=['git', 'local'], default='local', help='Type of source for templates')
+        parser.add_argument('-p', '--parents', action='store_true', default=False, help='Creates parent directories')
         parser.add_argument('source', help='Name of sorce template')
         parser.add_argument('target', help='Target file or directory for pasted files')
 
@@ -108,7 +116,7 @@ def main(args):
     if ctx.type == 'git':
         return paste_from_git(ctx.source, ctx.target, verbose=ctx.verbose)
     elif ctx.type == 'local':
-        return paste_from_local_file(ctx.source, ctx.target, edit_after=False, verbose=ctx.verbose)
+        return paste_from_local_file(ctx.source, ctx.target, edit_after=False, verbose=ctx.verbose, create_parent_dirs=ctx.parents)
     else:
         return -4
 
