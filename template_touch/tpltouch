@@ -27,18 +27,19 @@ def list_available_templates():
     print 'Available templates:'
     template_dir = get_template_dir()
     print os.listdir(template_dir)
+    return 0
 
 
 def check_file_free(target_name):
-    if os.path.exists(target_name):
+    exists = os.path.exists(target_name)
+    if exists:
         perr('Target %s already exists. Aborting' % target_name)
-        return -3
+    return not exists
 
 
-def paste_from_local_file(template_name, target_name, edit_after=False, verbose=False):
-    r = check_file_free(target_name)
-    if r:
-        return r
+def paste_from_local_file(template_name, target_name, edit_after=False, verbose=False, create_parent_dirs=False):
+
+    assert check_file_free(target_name)
 
     template_dir = get_template_dir()
     template = os.path.join(template_dir, template_name)
@@ -49,6 +50,13 @@ def paste_from_local_file(template_name, target_name, edit_after=False, verbose=
 
     if verbose:
         print 'From template %s create %s' % (template_name, target_name)
+
+    if create_parent_dirs:
+        parent = os.path.split(target_name)[0]
+        if not os.path.exists(parent):
+            if verbose:
+                print 'Creating parent directories to '
+        os.makedirs(parent)
 
     shutil.copyfile(template, target_name)
 
@@ -62,9 +70,8 @@ def paste_from_local_file(template_name, target_name, edit_after=False, verbose=
 
 
 def paste_from_git(repository_name, target_dir, verbose=False):
-    r = check_file_free(target_dir)
-    if r:
-        return r
+
+    assert check_file_free(target_dir)
 
     gh_repo = ('git://github.com/%s' % repository_name).encode('utf-8')
     git = local['git']
@@ -89,6 +96,7 @@ def parse_arguments(args):
     # FIXME: don't  depend on -l to add the arguments (how to do it with argparse?)
     if not normal_mode:
         parser.add_argument('-t', '--type', choices=['git', 'local'], default='local', help='Type of source for templates')
+        parser.add_argument('-p', '--parents', action='store_true', default=False, help='Creates parent directories')
         parser.add_argument('source', help='Name of sorce template')
         parser.add_argument('target', help='Target file or directory for pasted files')
 
@@ -108,7 +116,7 @@ def main(args):
     if ctx.type == 'git':
         return paste_from_git(ctx.source, ctx.target, verbose=ctx.verbose)
     elif ctx.type == 'local':
-        return paste_from_local_file(ctx.source, ctx.target, edit_after=False, verbose=ctx.verbose)
+        return paste_from_local_file(ctx.source, ctx.target, edit_after=False, verbose=ctx.verbose, create_parent_dirs=ctx.parents)
     else:
         return -4
 
