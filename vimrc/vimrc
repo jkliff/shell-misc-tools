@@ -64,7 +64,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
 autocmd BufWritePost *.py call Flake8()
 
 " folding
-set foldmethod=syntax
+set foldmethod=manual
 " all folds opened automatically
 au BufRead * normal zR
 
