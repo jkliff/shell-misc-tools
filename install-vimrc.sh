@@ -26,7 +26,8 @@ BUNDLES="https://github.com/scrooloose/syntastic.git    \
     git://github.com/venantius/vim-eastwood.git         \
     git://github.com/flazz/vim-colorschemes.git         \
     git://github.com/kchmck/vim-coffee-script.git       \
-    git://github.com/rodjek/vim-puppet.git"
+    git://github.com/rodjek/vim-puppet.git              \
+    git://github.com/mustache/vim-mustache-handlebars.git"
 
 
 function usage {
