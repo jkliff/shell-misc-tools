@@ -3,7 +3,8 @@
 set -e
 LOGGER=~/install-vim.log
 
-BUNDLES="git://github.com/airblade/vim-gitgutter.git    \
+BUNDLES="
+    git://github.com/airblade/vim-gitgutter.git         \
     git://github.com/bling/vim-airline.git              \
     git://github.com/derekwyatt/vim-scala.git           \
     git://github.com/digitaltoad/vim-jade.git           \
@@ -14,6 +15,7 @@ BUNDLES="git://github.com/airblade/vim-gitgutter.git    \
     git://github.com/kchmck/vim-coffee-script.git       \
     git://github.com/kien/ctrlp.vim.git                 \
     git://github.com/majutsushi/tagbar.git              \
+    git://github.com/mustache/vim-mustache-handlebars.git\
     git://github.com/nvie/vim-flake8.git                \
     git://github.com/plasticboy/vim-markdown.git        \
     git://github.com/rodjek/vim-puppet.git              \
