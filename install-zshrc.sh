@@ -1,4 +1,4 @@
-#!env bash
+#!/usr/bin/env bash
 
 TARGET_GIT_CHECKOUT=~/.zsh-contrib
 

@@ -112,6 +112,9 @@ case $HOST in
     outpost.h7r)
         HOSTCOLOR=096
         ;;
+    hayek)
+        HOSTCOLOR=white
+        ;;
     *)
         HOSTCOLOR=gray
         ;;
