@@ -16,7 +16,6 @@ BUNDLES="
     git://github.com/kien/ctrlp.vim.git                 \
     git://github.com/majutsushi/tagbar.git              \
     git://github.com/mustache/vim-mustache-handlebars.git\
-    git://github.com/nvie/vim-flake8.git                \
     git://github.com/plasticboy/vim-markdown.git        \
     git://github.com/rodjek/vim-puppet.git              \
     git://github.com/scrooloose/nerdtree.git            \
@@ -29,7 +28,7 @@ BUNDLES="
     git://github.com/tpope/vim-projectionist.git        \
     git://github.com/tpope/vim-surround.git             \
     git://github.com/venantius/vim-eastwood.git         \
-    https://github.com/scrooloose/syntastic.git"
+    https://github.com/vim-syntastic/syntastic.git"
 
 
 function usage {

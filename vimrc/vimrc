@@ -59,9 +59,8 @@ let g:syntastic_check_on_open=1
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],
                            \ 'passive_filetypes': ['java'] }
-
-" pyflake options (automatic with F7)
-autocmd BufWritePost *.py call Flake8()
+" Always display error messages
+let g:syntastic_always_populate_loc_list = 1
 
 " folding
 set foldmethod=manual
