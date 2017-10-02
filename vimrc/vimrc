@@ -54,13 +54,18 @@ let Tlist_WinWidth = 50
 map <F4> :TlistToggle<cr>
 
 " syntastic options
-let g:syntastic_check_on_open=1
 " avoid syntastic checks for java files (too heavy)
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],
                            \ 'passive_filetypes': ['java'] }
-" Always display error messages
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
 let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " folding
 set foldmethod=manual
