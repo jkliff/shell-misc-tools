@@ -4,31 +4,31 @@ set -e
 LOGGER=~/install-vim.log
 
 BUNDLES="
-    git://github.com/airblade/vim-gitgutter.git         \
-    git://github.com/bling/vim-airline.git              \
-    git://github.com/derekwyatt/vim-scala.git           \
-    git://github.com/digitaltoad/vim-jade.git           \
-    git://github.com/flazz/vim-colorschemes.git         \
-    git://github.com/groenewege/vim-less.git            \
-    git://github.com/guns/vim-sexp.git                  \
-    git://github.com/honza/dockerfile.vim.git           \
-    git://github.com/kchmck/vim-coffee-script.git       \
-    git://github.com/kien/ctrlp.vim.git                 \
-    git://github.com/majutsushi/tagbar.git              \
-    git://github.com/mustache/vim-mustache-handlebars.git\
-    git://github.com/plasticboy/vim-markdown.git        \
-    git://github.com/rodjek/vim-puppet.git              \
-    git://github.com/scrooloose/nerdtree.git            \
-    git://github.com/tfnico/vim-gradle.git              \
-    git://github.com/tpope/vim-commentary.git           \
-    git://github.com/tpope/vim-dispatch.git             \
-    git://github.com/tpope/vim-fireplace.git            \
-    git://github.com/tpope/vim-fugitive.git             \
-    git://github.com/tpope/vim-leiningen.git            \
-    git://github.com/tpope/vim-projectionist.git        \
-    git://github.com/tpope/vim-surround.git             \
-    git://github.com/venantius/vim-eastwood.git         \
-    https://github.com/vim-syntastic/syntastic.git"
+    git@github.com:airblade/vim-gitgutter.git         \
+    git@github.com:bling/vim-airline.git              \
+    git@github.com:derekwyatt/vim-scala.git           \
+    git@github.com:digitaltoad/vim-jade.git           \
+    git@github.com:flazz/vim-colorschemes.git         \
+    git@github.com:groenewege/vim-less.git            \
+    git@github.com:guns/vim-sexp.git                  \
+    git@github.com:honza/dockerfile.vim.git           \
+    git@github.com:kchmck/vim-coffee-script.git       \
+    git@github.com:kien/ctrlp.vim.git                 \
+    git@github.com:majutsushi/tagbar.git              \
+    git@github.com:mustache/vim-mustache-handlebars.git\
+    git@github.com:plasticboy/vim-markdown.git        \
+    git@github.com:rodjek/vim-puppet.git              \
+    git@github.com:scrooloose/nerdtree.git            \
+    git@github.com:tfnico/vim-gradle.git              \
+    git@github.com:tpope/vim-commentary.git           \
+    git@github.com:tpope/vim-dispatch.git             \
+    git@github.com:tpope/vim-fireplace.git            \
+    git@github.com:tpope/vim-fugitive.git             \
+    git@github.com:tpope/vim-leiningen.git            \
+    git@github.com:tpope/vim-projectionist.git        \
+    git@github.com:tpope/vim-surround.git             \
+    git@github.com:venantius/vim-eastwood.git         \
+    git@github.com:vim-syntastic/syntastic.git"
 
 
 function usage {

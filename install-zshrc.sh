@@ -14,7 +14,7 @@ if [[ -d zsh-syntax-highlighting ]] ; then
     git pull ;
     cd - ;
 else
-    git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
+    git clone git@github.com:zsh-users/zsh-syntax-highlighting.git
 fi
 pwd
 if [[ -d oh-my-zsh ]] ; then
@@ -22,7 +22,7 @@ if [[ -d oh-my-zsh ]] ; then
     git pull ;
     cd - ;
 else
-    git clone git://github.com/robbyrussell/oh-my-zsh.git
+    git clone git@github.com:robbyrussell/oh-my-zsh.git
 fi
 
 # create local configuration
